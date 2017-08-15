@@ -32,7 +32,12 @@ class ListCategories extends Component {
 
 function mapStateToProps(state) {
   return {
-    categories: state.categories
+    categories: Object.keys(
+      state.categories
+    ).reduce((categoryArr, categoryKey) => {
+      categoryArr.push(state.categories[categoryKey])
+      return categoryArr
+    }, [])
   }
 }
 

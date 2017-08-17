@@ -8,21 +8,20 @@ class ListCategories extends Component {
   }
   render() {
     return (
-      <div>
-        <div className="page-header">
-          <h1>Categories</h1>
-        </div>
-        <div className="row">
-          <div className="col-md-6">
-            <ul className="list-group">
+      <div className="col-sm-4">
+        <h2>Categories</h2>
+        <div>
+          <div>
+            <div className="list-group">
               {this.props.categories.map(category =>
-                <li className="list-group-item" key={category.path}>
-                  <a href="#">
-                    {category.name}
-                  </a>
-                </li>
+                <a
+                  className="list-group-item list-group-item-action"
+                  key={category.path}
+                >
+                  {category.name}
+                </a>
               )}
-            </ul>
+            </div>
           </div>
         </div>
       </div>

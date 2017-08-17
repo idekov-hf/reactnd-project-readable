@@ -6,8 +6,10 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <ListCategories />
-        <ListPosts />
+        <div className="row">
+          <ListCategories />
+          <ListPosts />
+        </div>
       </div>
     )
   }

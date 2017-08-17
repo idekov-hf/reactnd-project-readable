@@ -3,3 +3,14 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.vertical-align {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20;
+}
+
+select.order-by {
+  margin-left: 0.5em;
+}

@@ -12,8 +12,10 @@ class ListPosts extends Component {
         <div className="vertical-align">
           <h2>Posts</h2>
           <div>
-            Order by
-            <select className="order-by">
+            <select defaultValue="orderBy" className="order-by">
+              <option value="orderBy" disabled="disabled">
+                Order by
+              </option>
               <option value="voteScore">Vote Score</option>
               <option value="time">Time</option>
             </select>

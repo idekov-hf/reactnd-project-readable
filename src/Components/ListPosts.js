@@ -25,9 +25,11 @@ class ListPosts extends Component {
             <ul className="list-group">
               {this.props.posts.map(post =>
                 <li className="list-group-item" key={post.id}>
-                  <a href="#">
-                    {post.title}
-                  </a>
+                  <h4>
+                    <a href="#">
+                      {post.title}
+                    </a>
+                  </h4>
                   <p>
                     Score: {post.voteScore}
                   </p>

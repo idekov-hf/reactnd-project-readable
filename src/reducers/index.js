@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_CATEGORIES, RECEIVE_POSTS } from '../actions'
+import {
+  RECEIVE_CATEGORIES,
+  RECEIVE_POSTS,
+  ORDER_BY_VOTESCORE
+} from '../actions'
 
 function categories(state = {}, action) {
   const { type, categories } = action
@@ -14,18 +18,24 @@ function categories(state = {}, action) {
   }
 }
 
-function posts(state = { byId: {}, allIds: [] }, action) {
+function posts(state = {}, action) {
   const { type, posts } = action
   switch (type) {
     case RECEIVE_POSTS:
-      return posts.reduce(
-        (postsObj, post) => {
-          postsObj['byId'][post.id] = post
-          postsObj['allIds'].push(post.id)
-          return postsObj
-        },
-        { byId: {}, allIds: [] }
-      )
+      return posts.reduce((postsObj, post) => {
+        postsObj[post.id] = post
+        return postsObj
+      }, {})
+    case ORDER_BY_VOTESCORE:
+      const orderedPosts = Object.values(state).sort((a, b) => {
+        if (a.voteScore > b.voteScore) return -1
+        if (a.voteScore < b.voteScore) return 1
+        return 0
+      })
+      return orderedPosts.reduce((postsObj, post) => {
+        postsObj[post.id] = post
+        return postsObj
+      }, {})
     default:
       return state
   }

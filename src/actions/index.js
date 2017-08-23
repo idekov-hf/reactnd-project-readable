@@ -18,4 +18,12 @@ export const receivePosts = posts => ({
 })
 
 export const fetchPosts = () => dispatch =>
-  APIUtil.fetchPosts().then(posts => dispatch(receivePosts(posts)))
+  APIUtil.fetchPosts().then(posts => {
+    dispatch(receivePosts(posts))
+    dispatch(orderPostsByVoteScore())
+  })
+
+export const ORDER_BY_VOTESCORE = 'ORDER_BY_VOTESCORE'
+export const orderPostsByVoteScore = () => ({
+  type: ORDER_BY_VOTESCORE
+})

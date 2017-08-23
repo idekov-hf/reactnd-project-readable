@@ -14,14 +14,18 @@ function categories(state = {}, action) {
   }
 }
 
-function posts(state = {}, action) {
+function posts(state = { byId: {}, allIds: [] }, action) {
   const { type, posts } = action
   switch (type) {
     case RECEIVE_POSTS:
-      return posts.reduce((postsObj, post) => {
-        postsObj[post.id] = post
-        return postsObj
-      }, {})
+      return posts.reduce(
+        (postsObj, post) => {
+          postsObj['byId'][post.id] = post
+          postsObj['allIds'].push(post.id)
+          return postsObj
+        },
+        { byId: {}, allIds: [] }
+      )
     default:
       return state
   }

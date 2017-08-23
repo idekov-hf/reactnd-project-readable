@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPosts } from '../actions'
+import { fetchPosts, orderPostsBy } from '../actions'
 
 class ListPosts extends Component {
   componentDidMount() {
@@ -11,12 +11,16 @@ class ListPosts extends Component {
       <div className="col-sm-8">
         <div className="vertical-align">
           <h2>Posts</h2>
-          <select defaultValue="orderBy" className="order-by">
+          <select
+            defaultValue="orderBy"
+            className="order-by"
+            onChange={e => this.props.orderPostsBy(e.target.value)}
+          >
             <option value="orderBy" disabled="disabled">
               Order by
             </option>
             <option value="voteScore">Vote Score</option>
-            <option value="time">Time</option>
+            <option value="timestamp">Time</option>
           </select>
           <button className="btn btn-success">Add Post +</button>
         </div>
@@ -54,7 +58,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPosts: () => dispatch(fetchPosts())
+    fetchPosts: () => dispatch(fetchPosts()),
+    orderPostsBy: value => dispatch(orderPostsBy(value))
   }
 }
 

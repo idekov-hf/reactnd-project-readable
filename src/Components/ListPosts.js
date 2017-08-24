@@ -11,17 +11,17 @@ class ListPosts extends Component {
       <div className="col-sm-8">
         <div className="vertical-align">
           <h2>Posts</h2>
-          <select
-            defaultValue="orderBy"
-            className="order-by"
-            onChange={e => this.props.orderPostsBy(e.target.value)}
-          >
-            <option value="orderBy" disabled="disabled">
-              Order by
-            </option>
-            <option value="voteScore">Vote Score</option>
-            <option value="timestamp">Time</option>
-          </select>
+          <div>
+            Order by:
+            <select
+              defaultValue="voteScore"
+              className="order-by"
+              onChange={e => this.props.orderPostsBy(e.target.value)}
+            >
+              <option value="voteScore">Most Votes</option>
+              <option value="timestamp">Newest Post</option>
+            </select>
+          </div>
           <button className="btn btn-success">Add Post +</button>
         </div>
         <div>

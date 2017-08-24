@@ -35,6 +35,9 @@ class ListPosts extends Component {
                     </a>
                   </h4>
                   <p>
+                    Date created: {new Date(post.timestamp).toLocaleString()}
+                  </p>
+                  <p>
                     Score: {post.voteScore}
                   </p>
                 </li>

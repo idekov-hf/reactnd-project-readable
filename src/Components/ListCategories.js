@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCategories } from '../actions'
+import { fetchCategories, setSelectedCategory } from '../actions'
 
 class ListCategories extends Component {
   componentDidMount() {
@@ -13,14 +13,21 @@ class ListCategories extends Component {
         <div>
           <div>
             <div className="list-group">
-              {this.props.categories.map(category =>
-                <a
-                  className="list-group-item list-group-item-action"
-                  key={category.path}
-                >
-                  {category.name}
-                </a>
-              )}
+              {this.props.categories.map(category => {
+                const selected = this.props.selectedCategory === category.name
+                return (
+                  <a
+                    className={`list-group-item list-group-item-action ${selected
+                      ? 'active'
+                      : ''}`}
+                    key={category.path}
+                    onClick={() =>
+                      this.props.setSelectedCategory(category.name)}
+                  >
+                    {category.name}
+                  </a>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -31,18 +38,15 @@ class ListCategories extends Component {
 
 function mapStateToProps(state) {
   return {
-    categories: Object.keys(
-      state.categories
-    ).reduce((categoryArr, categoryKey) => {
-      categoryArr.push(state.categories[categoryKey])
-      return categoryArr
-    }, [])
+    categories: state.categories.all,
+    selectedCategory: state.categories.selected
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchCategories: () => dispatch(fetchCategories()),
+    setSelectedCategory: category => dispatch(setSelectedCategory(category))
   }
 }
 

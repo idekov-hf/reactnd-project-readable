@@ -11,6 +11,12 @@ export const fetchCategories = () => dispatch =>
     dispatch(receiveCategories(categories))
   )
 
+export const SET_SELECTED_CATEGORY = 'SET_SELECTED_CATEGORY'
+export const setSelectedCategory = category => ({
+  type: SET_SELECTED_CATEGORY,
+  category
+})
+
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,

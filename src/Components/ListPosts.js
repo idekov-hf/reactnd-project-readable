@@ -51,11 +51,20 @@ class ListPosts extends Component {
 }
 
 function mapStateToProps(state) {
+  const filterBy = state.categories.selected
+
+  let posts = Object.keys(state.posts).reduce((postsArr, postKey) => {
+    postsArr.push(state.posts[postKey])
+    return postsArr
+  }, [])
+
+  if (filterBy !== '') {
+    posts = posts.filter(post => {
+      return filterBy === post.category
+    })
+  }
   return {
-    posts: Object.keys(state.posts).reduce((postsArr, postKey) => {
-      postsArr.push(state.posts[postKey])
-      return postsArr
-    }, [])
+    posts: posts
   }
 }
 

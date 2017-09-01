@@ -17,7 +17,8 @@ function categories(state = defaultCategoriesState, action) {
     case RECEIVE_CATEGORIES:
       return { ...state, all: categories }
     case SET_SELECTED_CATEGORY:
-      return { ...state, selected: category }
+      const selectedCategory = state.selected === category ? '' : category
+      return { ...state, selected: selectedCategory }
     default:
       return state
   }

@@ -37,9 +37,15 @@ class ListPosts extends Component {
                   <p>
                     Date created: {new Date(post.timestamp).toLocaleString()}
                   </p>
-                  <p>
-                    Score: {post.voteScore}
-                  </p>
+                  <div className="vote-score-container">
+                    <p className="vote-score-number">
+                      Score: {post.voteScore}
+                    </p>
+                    <div className="vote-score-controls">
+                      <button>-</button>
+                      <button>+</button>
+                    </div>
+                  </div>
                 </li>
               )}
             </ul>

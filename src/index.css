@@ -13,3 +13,16 @@ body {
 select.order-by {
   margin-left: 0.5em;
 }
+
+.vote-score-container {
+  display: flex;
+  align-items: center;
+}
+
+.vote-score-number {
+  margin: 0 0.6em 0 0;
+}
+
+.vote-score-controls {
+  margin-left: 0.6em;
+}

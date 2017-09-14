@@ -42,9 +42,12 @@ export const adjustLocalPostScore = (post, operation) => ({
   operation
 })
 
-export const adjustServerPostScore = (post, operation) => dispatch => {
+export const adjustServerPostScore = (post, operation, orderBy) => dispatch => {
   const option = operation === 'increment' ? 'upVote' : 'downVote'
-  APIUtil.adjustPostScore(post, option).then(() =>
+  APIUtil.adjustPostScore(post, option).then(() => {
     dispatch(adjustLocalPostScore(post, operation))
-  )
+    if (orderBy === 'voteScore') {
+      dispatch(orderPostsBy('voteScore'))
+    }
+  })
 }

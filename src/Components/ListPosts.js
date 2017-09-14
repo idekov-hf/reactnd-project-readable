@@ -7,6 +7,7 @@ class ListPosts extends Component {
     this.props.fetchPosts()
   }
   render() {
+    const { orderBy, orderPostsBy, posts, adjustPostScore } = this.props
     return (
       <div className="col-sm-8">
         <div className="vertical-align">
@@ -14,9 +15,9 @@ class ListPosts extends Component {
           <div>
             Order by:
             <select
-              defaultValue="voteScore"
+              defaultValue={orderBy}
               className="order-by"
-              onChange={e => this.props.orderPostsBy(e.target.value)}
+              onChange={e => orderPostsBy(e.target.value)}
             >
               <option value="voteScore">Most Votes</option>
               <option value="timestamp">Newest Post</option>
@@ -27,7 +28,7 @@ class ListPosts extends Component {
         <div>
           <div>
             <ul className="list-group">
-              {this.props.posts.map(post =>
+              {posts.map(post =>
                 <li className="list-group-item" key={post.id}>
                   <h4>
                     <a href="#">
@@ -45,14 +46,14 @@ class ListPosts extends Component {
                       <button
                         value="decrement"
                         onClick={e =>
-                          this.props.adjustPostScore(post, e.target.value)}
+                          adjustPostScore(post, e.target.value, orderBy)}
                       >
                         -
                       </button>
                       <button
                         value="increment"
                         onClick={e =>
-                          this.props.adjustPostScore(post, e.target.value)}
+                          adjustPostScore(post, e.target.value, orderBy)}
                       >
                         +
                       </button>
@@ -82,7 +83,8 @@ function mapStateToProps(state) {
     })
   }
   return {
-    posts: posts
+    posts,
+    orderBy: state.posts.orderBy
   }
 }
 
@@ -90,8 +92,8 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
     orderPostsBy: value => dispatch(orderPostsBy(value)),
-    adjustPostScore: (post, operation) =>
-      dispatch(adjustServerPostScore(post, operation))
+    adjustPostScore: (post, operation, orderBy) =>
+      dispatch(adjustServerPostScore(post, operation, orderBy))
   }
 }
 

@@ -48,11 +48,11 @@ function posts(state = defaultPostsState, action) {
         return 0
       })
       return {
-        ...state,
         all: orderedPosts.reduce((postsObj, post) => {
           postsObj[post.id] = post
           return postsObj
-        }, {})
+        }, {}),
+        orderBy: value
       }
     case ADJUST_POST_SCORE:
       if (operation === 'increment') {

@@ -3,7 +3,8 @@ import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
   ORDER_POSTS,
-  SET_SELECTED_CATEGORY
+  SET_SELECTED_CATEGORY,
+  ADJUST_POST_SCORE
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -25,7 +26,7 @@ function categories(state = defaultCategoriesState, action) {
 }
 
 function posts(state = {}, action) {
-  const { type, posts, value } = action
+  const { type, posts, value, post, operation } = action
   switch (type) {
     case RECEIVE_POSTS:
       return posts.reduce((postsObj, post) => {
@@ -42,6 +43,24 @@ function posts(state = {}, action) {
         postsObj[post.id] = post
         return postsObj
       }, {})
+    case ADJUST_POST_SCORE:
+      if (operation === 'increment') {
+        return {
+          ...state,
+          [post.id]: {
+            ...state[post.id],
+            voteScore: state[post.id].voteScore + 1
+          }
+        }
+      } else {
+        return {
+          ...state,
+          [post.id]: {
+            ...state[post.id],
+            voteScore: state[post.id].voteScore - 1
+          }
+        }
+      }
     default:
       return state
   }

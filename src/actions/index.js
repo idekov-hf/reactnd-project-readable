@@ -34,3 +34,17 @@ export const orderPostsBy = value => ({
   type: ORDER_POSTS,
   value
 })
+
+export const ADJUST_POST_SCORE = 'ADJUST_POST_SCORE'
+export const adjustLocalPostScore = (post, operation) => ({
+  type: ADJUST_POST_SCORE,
+  post,
+  operation
+})
+
+export const adjustServerPostScore = (post, operation) => dispatch => {
+  const option = operation === 'increment' ? 'upVote' : 'downVote'
+  APIUtil.adjustPostScore(post, option).then(() =>
+    dispatch(adjustLocalPostScore(post, operation))
+  )
+}

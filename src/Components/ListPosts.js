@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchPosts, orderPostsBy } from '../actions'
+import { fetchPosts, orderPostsBy, adjustServerPostScore } from '../actions'
 
 class ListPosts extends Component {
   componentDidMount() {
@@ -42,8 +42,20 @@ class ListPosts extends Component {
                       Score: {post.voteScore}
                     </p>
                     <div className="vote-score-controls">
-                      <button>-</button>
-                      <button>+</button>
+                      <button
+                        value="decrement"
+                        onClick={e =>
+                          this.props.adjustPostScore(post, e.target.value)}
+                      >
+                        -
+                      </button>
+                      <button
+                        value="increment"
+                        onClick={e =>
+                          this.props.adjustPostScore(post, e.target.value)}
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                 </li>
@@ -77,7 +89,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
-    orderPostsBy: value => dispatch(orderPostsBy(value))
+    orderPostsBy: value => dispatch(orderPostsBy(value)),
+    adjustPostScore: (post, operation) =>
+      dispatch(adjustServerPostScore(post, operation))
   }
 }
 

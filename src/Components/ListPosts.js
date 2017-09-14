@@ -71,8 +71,8 @@ class ListPosts extends Component {
 function mapStateToProps(state) {
   const filterBy = state.categories.selected
 
-  let posts = Object.keys(state.posts).reduce((postsArr, postKey) => {
-    postsArr.push(state.posts[postKey])
+  let posts = Object.keys(state.posts.all).reduce((postsArr, postKey) => {
+    postsArr.push(state.posts.all[postKey])
     return postsArr
   }, [])
 

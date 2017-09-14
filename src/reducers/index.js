@@ -25,39 +25,56 @@ function categories(state = defaultCategoriesState, action) {
   }
 }
 
-function posts(state = {}, action) {
+const defaultPostsState = {
+  all: {},
+  orderBy: 'voteScore'
+}
+
+function posts(state = defaultPostsState, action) {
   const { type, posts, value, post, operation } = action
   switch (type) {
     case RECEIVE_POSTS:
-      return posts.reduce((postsObj, post) => {
-        postsObj[post.id] = post
-        return postsObj
-      }, {})
+      return {
+        ...state,
+        all: posts.reduce((postsObj, post) => {
+          postsObj[post.id] = post
+          return postsObj
+        }, {})
+      }
     case ORDER_POSTS:
-      const orderedPosts = Object.values(state).sort((a, b) => {
+      const orderedPosts = Object.values(state.all).sort((a, b) => {
         if (a[value] > b[value]) return -1
         if (a[value] < b[value]) return 1
         return 0
       })
-      return orderedPosts.reduce((postsObj, post) => {
-        postsObj[post.id] = post
-        return postsObj
-      }, {})
+      return {
+        ...state,
+        all: orderedPosts.reduce((postsObj, post) => {
+          postsObj[post.id] = post
+          return postsObj
+        }, {})
+      }
     case ADJUST_POST_SCORE:
       if (operation === 'increment') {
         return {
           ...state,
-          [post.id]: {
-            ...state[post.id],
-            voteScore: state[post.id].voteScore + 1
+          all: {
+            ...state.all,
+            [post.id]: {
+              ...state.all[post.id],
+              voteScore: state.all[post.id].voteScore + 1
+            }
           }
         }
       } else {
         return {
           ...state,
-          [post.id]: {
-            ...state[post.id],
-            voteScore: state[post.id].voteScore - 1
+          all: {
+            ...state.all,
+            [post.id]: {
+              ...state.all[post.id],
+              voteScore: state.all[post.id].voteScore - 1
+            }
           }
         }
       }

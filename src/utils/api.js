@@ -20,3 +20,9 @@ export function adjustPostScore(post, option) {
     body: JSON.stringify({ option: option })
   }).then(response => response.json())
 }
+
+export function fetchComments(postId) {
+  return fetch(`http://localhost:5001/posts/${postId}/comments`, {
+    headers: { Authorization: 'Authorization' }
+  }).then(response => response.json())
+}

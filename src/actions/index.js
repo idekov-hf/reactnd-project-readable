@@ -26,6 +26,7 @@ export const receivePosts = posts => ({
 export const fetchPosts = () => dispatch =>
   APIUtil.fetchPosts().then(posts => {
     dispatch(receivePosts(posts))
+    dispatch(fetchComments(posts))
     dispatch(orderPostsBy('voteScore'))
   })
 
@@ -50,4 +51,20 @@ export const adjustServerPostScore = (post, operation, orderBy) => dispatch => {
       dispatch(orderPostsBy('voteScore'))
     }
   })
+}
+
+export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const receiveComments = (comments, post) => ({
+  type: RECEIVE_COMMENTS,
+  comments,
+  post
+})
+
+export const fetchComments = posts => dispatch => {
+  posts.forEach(post =>
+    APIUtil.fetchComments(post.id).then(comments => {
+      console.log(comments)
+      dispatch(receiveComments(comments, post))
+    })
+  )
 }

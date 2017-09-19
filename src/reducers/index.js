@@ -4,7 +4,8 @@ import {
   RECEIVE_POSTS,
   ORDER_POSTS,
   SET_SELECTED_CATEGORY,
-  ADJUST_POST_SCORE
+  ADJUST_POST_SCORE,
+  RECEIVE_COMMENTS
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -83,7 +84,28 @@ function posts(state = defaultPostsState, action) {
   }
 }
 
+const defaultCommentsState = {
+  byParentId: {}
+}
+
+function comments(state = defaultCommentsState, action) {
+  const { type, comments, post } = action
+  switch (type) {
+    case RECEIVE_COMMENTS:
+      return {
+        ...state,
+        byParentId: {
+          ...state.byParentId,
+          [post.id]: comments
+        }
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   categories,
-  posts
+  posts,
+  comments
 })

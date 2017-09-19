@@ -7,7 +7,13 @@ class ListPosts extends Component {
     this.props.fetchPosts()
   }
   render() {
-    const { orderBy, orderPostsBy, posts, adjustPostScore } = this.props
+    const {
+      orderBy,
+      orderPostsBy,
+      posts,
+      adjustPostScore,
+      comments
+    } = this.props
     return (
       <div className="col-sm-8">
         <div className="vertical-align">
@@ -59,6 +65,9 @@ class ListPosts extends Component {
                       </button>
                     </div>
                   </div>
+                  <p>
+                    Comments: {comments[post.id] && comments[post.id].length}
+                  </p>
                 </li>
               )}
             </ul>
@@ -84,7 +93,8 @@ function mapStateToProps(state) {
   }
   return {
     posts,
-    orderBy: state.posts.orderBy
+    orderBy: state.posts.orderBy,
+    comments: state.comments.byParentId
   }
 }
 

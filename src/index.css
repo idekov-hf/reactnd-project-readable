@@ -26,3 +26,11 @@ select.order-by {
 .vote-score-controls {
   margin-left: 0.6em;
 }
+
+.list-group-item > * {
+  margin-bottom: 6px;
+}
+
+.list-group-item h4 {
+  margin-bottom: 12px;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchPosts, orderPostsBy, adjustServerPostScore } from '../actions'
 
@@ -37,9 +38,14 @@ class ListPosts extends Component {
               {posts.map(post =>
                 <li className="list-group-item" key={post.id}>
                   <h4>
-                    <a href="#">
+                    <Link
+                      to={{
+                        pathname: `/post/${post.id}`,
+                        state: { postId: post.id }
+                      }}
+                    >
                       {post.title}
-                    </a>
+                    </Link>
                   </h4>
                   <p>
                     Date created: {new Date(post.timestamp).toLocaleString()}

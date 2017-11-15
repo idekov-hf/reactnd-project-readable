@@ -48,6 +48,9 @@ class ListPosts extends Component {
                     </Link>
                   </h4>
                   <p>
+                    Author: {post.author}
+                  </p>
+                  <p>
                     Date created: {new Date(post.timestamp).toLocaleString()}
                   </p>
                   <div className="vote-score-container">

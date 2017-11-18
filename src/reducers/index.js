@@ -3,7 +3,6 @@ import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
   ORDER_POSTS,
-  SET_SELECTED_CATEGORY,
   ADJUST_POST_SCORE,
   RECEIVE_COMMENTS
 } from '../actions'
@@ -14,13 +13,10 @@ const defaultCategoriesState = {
 }
 
 function categories(state = defaultCategoriesState, action) {
-  const { type, categories, category } = action
+  const { type, categories } = action
   switch (type) {
     case RECEIVE_CATEGORIES:
       return { ...state, all: categories }
-    case SET_SELECTED_CATEGORY:
-      const selectedCategory = state.selected === category ? '' : category
-      return { ...state, selected: selectedCategory }
     default:
       return state
   }

@@ -63,7 +63,6 @@ export const receiveComments = (comments, post) => ({
 export const fetchComments = posts => dispatch => {
   posts.forEach(post =>
     APIUtil.fetchComments(post.id).then(comments => {
-      console.log(comments)
       dispatch(receiveComments(comments, post))
     })
   )

@@ -8,13 +8,19 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <Route exact path="/" render={() => (
-          <div className="row">
-            <ListCategories />
-            <ListPosts />
-          </div>
-        )} />
-        <Route path="/post/" component={PostDetail} />
+        <Route
+          exact
+          path="/:category?"
+          render={props => {
+            return (
+              <div className="row">
+                <ListCategories location={props.location} />
+                <ListPosts location={props.location} />
+              </div>
+            )
+          }}
+        />
+        <Route exact path="/:category/:post_id" component={PostDetail} />
       </div>
     )
   }

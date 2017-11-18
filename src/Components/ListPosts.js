@@ -40,7 +40,7 @@ class ListPosts extends Component {
                   <h4>
                     <Link
                       to={{
-                        pathname: `/post/${post.id}`,
+                        pathname: `/${post.category}/${post.id}`,
                         state: { postId: post.id }
                       }}
                     >
@@ -87,19 +87,21 @@ class ListPosts extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const filterBy = state.categories.selected
-
+function mapStateToProps(state, props) {
   let posts = Object.keys(state.posts.all).reduce((postsArr, postKey) => {
     postsArr.push(state.posts.all[postKey])
     return postsArr
   }, [])
 
+  // Filter posts if category has been selected
+  const pathname = props.location.pathname
+  const filterBy = pathname.slice(1)
   if (filterBy !== '') {
     posts = posts.filter(post => {
       return filterBy === post.category
     })
   }
+
   return {
     posts,
     orderBy: state.posts.orderBy,

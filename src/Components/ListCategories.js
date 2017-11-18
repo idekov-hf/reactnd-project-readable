@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCategories, setSelectedCategory } from '../actions'
+import { Link } from 'react-router-dom'
+import { fetchCategories } from '../actions'
 
 class ListCategories extends Component {
   componentDidMount() {
     this.props.fetchCategories()
   }
   render() {
+    const pathname = this.props.location.pathname
+    const selectedCategory = pathname.slice(1)
     return (
       <div className="col-sm-4">
         <h2>Categories</h2>
@@ -14,18 +17,17 @@ class ListCategories extends Component {
           <div>
             <div className="list-group">
               {this.props.categories.map(category => {
-                const selected = this.props.selectedCategory === category.name
+                const selected = selectedCategory === category.name
                 return (
-                  <a
+                  <Link
+                    to={`/${selected ? '' : category.name}`}
                     className={`list-group-item list-group-item-action ${selected
                       ? 'active'
                       : ''}`}
                     key={category.path}
-                    onClick={() =>
-                      this.props.setSelectedCategory(category.name)}
                   >
                     {category.name}
-                  </a>
+                  </Link>
                 )
               })}
             </div>
@@ -38,15 +40,13 @@ class ListCategories extends Component {
 
 function mapStateToProps(state) {
   return {
-    categories: state.categories.all,
-    selectedCategory: state.categories.selected
+    categories: state.categories.all
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchCategories: () => dispatch(fetchCategories()),
-    setSelectedCategory: category => dispatch(setSelectedCategory(category))
+    fetchCategories: () => dispatch(fetchCategories())
   }
 }
 

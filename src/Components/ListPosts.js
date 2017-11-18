@@ -38,12 +38,7 @@ class ListPosts extends Component {
               {posts.map(post =>
                 <li className="list-group-item" key={post.id}>
                   <h4>
-                    <Link
-                      to={{
-                        pathname: `/${post.category}/${post.id}`,
-                        state: { postId: post.id }
-                      }}
-                    >
+                    <Link to={`/${post.category}/${post.id}`}>
                       {post.title}
                     </Link>
                   </h4>

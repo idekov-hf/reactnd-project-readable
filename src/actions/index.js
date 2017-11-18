@@ -24,6 +24,17 @@ export const fetchPosts = () => dispatch =>
     dispatch(orderPostsBy('voteScore'))
   })
 
+export const RECEIVE_POST = 'RECEIVE_POST'
+export const receivePost = post => ({
+  type: RECEIVE_POST,
+  post
+})
+
+export const fetchPost = postID => dispatch =>
+  APIUtil.fetchPost(postID).then(post => {
+    dispatch(receivePost(post))
+  })
+
 export const ORDER_POSTS = 'ORDER_POSTS'
 export const orderPostsBy = value => ({
   type: ORDER_POSTS,

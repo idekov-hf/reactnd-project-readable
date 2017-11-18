@@ -34,3 +34,14 @@ select.order-by {
 .list-group-item h4 {
   margin-bottom: 12px;
 }
+
+.post {
+  padding: 0 10px 10px;
+  border-radius: 10px;
+  background: #e5eefc;
+}
+
+.post h1 {
+  margin-top: 10px;
+  padding-top: 10px;
+}

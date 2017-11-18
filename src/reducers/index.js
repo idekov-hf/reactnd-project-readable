@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
+  RECEIVE_POST,
   ORDER_POSTS,
   ADJUST_POST_SCORE,
   RECEIVE_COMMENTS
@@ -38,6 +39,10 @@ function posts(state = defaultPostsState, action) {
           return postsObj
         }, {})
       }
+    case RECEIVE_POST:
+      const postID = post.id
+      const postByID = { [postID]: post }
+      return { ...state, all: postByID }
     case ORDER_POSTS:
       const orderedPosts = Object.values(state.all).sort((a, b) => {
         if (a[value] > b[value]) return -1

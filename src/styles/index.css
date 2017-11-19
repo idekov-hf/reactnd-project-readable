@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.vertical-align {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+select.order-by {
+  margin-left: 0.5em;
+}
+
+.vote-score-container {
+  display: flex;
+  align-items: center;
+}
+
+.vote-score-number {
+  margin: 0 0.6em 0 0;
+}
+
+.vote-score-controls {
+  margin-left: 0.6em;
+}
+
+.list-group-item > * {
+  margin-bottom: 6px;
+}
+
+.list-group-item h4 {
+  margin-bottom: 12px;
+}
+
+.post {
+  padding: 0 10px 10px;
+  border-radius: 10px;
+  background: #e5eefc;
+}
+
+.post h1 {
+  margin-top: 10px;
+  padding-top: 10px;
+}

@@ -17,6 +17,7 @@ select.order-by {
 .vote-score-container {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .vote-score-number {

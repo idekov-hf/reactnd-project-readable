@@ -24,6 +24,9 @@ class PostDetail extends Component {
           <p>
             {new Date(post.timestamp).toLocaleString()}
           </p>
+          <p>
+            {post.body}
+          </p>
           <div className="vote-score-container">
             <p className="vote-score-number">
               Score: {post.voteScore}
@@ -45,9 +48,6 @@ class PostDetail extends Component {
           </div>
           <p>
             Comments: {comments[post.id] && comments[post.id].length}
-          </p>
-          <p>
-            {post.body}
           </p>
         </div>
 

@@ -39,9 +39,14 @@ select.order-by {
   padding: 0 10px 10px;
   border-radius: 10px;
   background: #e5eefc;
+  margin-bottom: 20px;
 }
 
 .post h1 {
   margin-top: 10px;
   padding-top: 10px;
+}
+
+label {
+  display: block;
 }

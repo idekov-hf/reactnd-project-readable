@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchPost, adjustServerPostScore } from '../actions'
 import NewComment from './NewComment'
+import ListComments from './ListComments'
 
 class PostDetail extends Component {
   componentDidMount() {
-    if (Object.keys(this.props.post) == 0) {
+    if (Object.keys(this.props.post).length === 0) {
       this.props.fetchPost(this.props.postID)
     }
   }
   render() {
-    const { post, adjustPostScore, orderBy } = this.props
+    const { post, postID, adjustPostScore, orderBy, comments } = this.props
     return (
       <div>
         <div className="post">
@@ -43,12 +44,19 @@ class PostDetail extends Component {
             </div>
           </div>
           <p>
+            Comments: {comments[post.id] && comments[post.id].length}
+          </p>
+          <p>
             {post.body}
           </p>
         </div>
 
         <div className="new-comment">
           {<NewComment />}
+        </div>
+
+        <div>
+          <ListComments postID={postID} />
         </div>
       </div>
     )
@@ -61,7 +69,8 @@ function mapStateToProps(state, props) {
   return {
     post: state.posts.all[postID] ? state.posts.all[postID] : {},
     postID: postID,
-    orderBy: state.posts.orderBy
+    orderBy: state.posts.orderBy,
+    comments: state.comments.byParentId
   }
 }
 

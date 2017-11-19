@@ -9,7 +9,7 @@ class ListCategories extends Component {
   }
   render() {
     const pathname = this.props.location.pathname
-    const selectedCategory = pathname.slice(1)
+    const selectedCategory = pathname.replace(/\//g, '')
     return (
       <div className="col-sm-4">
         <h2>Categories</h2>

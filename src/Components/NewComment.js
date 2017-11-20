@@ -12,8 +12,7 @@ class NewComment extends Component {
       timestamp: Date.now(),
       body: event.target.commentTextarea.value,
       author: event.target.nameInput.value,
-      parentId: postId,
-      voteScore: 0
+      parentId: postId
     }
     this.props.addComment(newComment, postId)
   }

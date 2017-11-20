@@ -32,3 +32,14 @@ export function fetchComments(postId) {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }
+
+export function addComment(comment) {
+  return fetch(`http://localhost:5001/comments`, {
+    method: 'post',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(response => response.json())
+}

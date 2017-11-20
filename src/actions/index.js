@@ -73,8 +73,13 @@ export const fetchComments = post => dispatch => {
 }
 
 export const ADD_COMMENT = 'ADD_COMMENT'
-export const addComment = (comment, postId) => ({
+export const addCommentToStore = comment => ({
   type: ADD_COMMENT,
-  comment,
-  postId
+  comment
 })
+
+export const addComment = newComment => dispatch => {
+  APIUtil.addComment(newComment).then(comment => {
+    dispatch(addCommentToStore(comment))
+  })
+}

@@ -81,7 +81,7 @@ const defaultCommentsState = {
 }
 
 function comments(state = defaultCommentsState, action) {
-  const { type, comments, comment, post, postId } = action
+  const { type, comments, comment, post } = action
   switch (type) {
     case RECEIVE_COMMENTS:
       return {
@@ -96,7 +96,7 @@ function comments(state = defaultCommentsState, action) {
         ...state,
         byParentId: {
           ...state.byParentId,
-          [postId]: [...state.byParentId[postId], comment]
+          [comment.parentId]: [...state.byParentId[comment.parentId], comment]
         }
       }
     default:

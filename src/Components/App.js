@@ -12,10 +12,13 @@ class App extends Component {
           exact
           path="/:category?"
           render={props => {
+            const category = props.match.params.category
+              ? props.match.params.category
+              : ''
             return (
               <div className="row">
-                <ListCategories location={props.location} />
-                <ListPosts location={props.location} />
+                <ListCategories category={category} />
+                <ListPosts category={category} />
               </div>
             )
           }}

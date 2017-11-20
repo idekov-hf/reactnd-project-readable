@@ -89,8 +89,7 @@ function mapStateToProps(state, props) {
   }, [])
 
   // Filter posts if category has been selected
-  const pathname = props.location.pathname
-  const filterBy = pathname.replace(/\//g, '')
+  const filterBy = props.category
   if (filterBy !== '') {
     posts = posts.filter(post => {
       return filterBy === post.category

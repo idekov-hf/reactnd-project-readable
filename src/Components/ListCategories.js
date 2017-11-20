@@ -8,8 +8,7 @@ class ListCategories extends Component {
     this.props.fetchCategories()
   }
   render() {
-    const pathname = this.props.location.pathname
-    const selectedCategory = pathname.replace(/\//g, '')
+    const selectedCategory = this.props.category
     return (
       <div className="col-sm-4">
         <h2>Categories</h2>

@@ -1,18 +1,40 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { addComment } from '../actions'
+import { generateId } from '../utils/helperMethods'
 
-export default class NewComment extends Component {
+class NewComment extends Component {
+  handleSubmit(event) {
+    event.preventDefault()
+    const postId = this.props.postId
+    const newComment = {
+      id: generateId(),
+      timestamp: Date.now(),
+      body: event.target.commentTextarea.value,
+      author: event.target.nameInput.value,
+      parentId: postId,
+      voteScore: 0
+    }
+    this.props.addComment(newComment, postId)
+  }
+
   render() {
     return (
       <div className="panel panel-default">
         <div className="panel-body">
-          <form>
+          <form onSubmit={event => this.handleSubmit(event)}>
             <label>
               Name
-              <input className="form-control" placeholder="Your name" />
+              <input
+                name="nameInput"
+                className="form-control"
+                placeholder="Your name"
+              />
             </label>
             <label>
               Comment
               <textarea
+                name="commentTextarea"
                 className="form-control"
                 placeholder="Type your comment here"
               />
@@ -26,3 +48,11 @@ export default class NewComment extends Component {
     )
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addComment: (comment, postId) => dispatch(addComment(comment, postId))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewComment)

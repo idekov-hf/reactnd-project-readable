@@ -41,7 +41,7 @@ class ListComments extends Component {
 function mapStateToProps(state, props) {
   const comments =
     Object.values(state.comments.byParentId).length > 0
-      ? state.comments.byParentId[props.postID]
+      ? state.comments.byParentId[props.postId]
       : []
   return {
     comments: comments

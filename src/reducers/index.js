@@ -5,7 +5,8 @@ import {
   RECEIVE_POST,
   ORDER_POSTS,
   ADJUST_POST_SCORE,
-  RECEIVE_COMMENTS
+  RECEIVE_COMMENTS,
+  ADD_COMMENT
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -40,8 +41,8 @@ function posts(state = defaultPostsState, action) {
         }, {})
       }
     case RECEIVE_POST:
-      const postID = post.id
-      const postByID = { [postID]: post }
+      const postId = post.id
+      const postByID = { [postId]: post }
       return { ...state, all: postByID }
     case ORDER_POSTS:
       const orderedPosts = Object.values(state.all).sort((a, b) => {
@@ -90,7 +91,7 @@ const defaultCommentsState = {
 }
 
 function comments(state = defaultCommentsState, action) {
-  const { type, comments, post } = action
+  const { type, comments, comment, post, postId } = action
   switch (type) {
     case RECEIVE_COMMENTS:
       return {
@@ -98,6 +99,14 @@ function comments(state = defaultCommentsState, action) {
         byParentId: {
           ...state.byParentId,
           [post.id]: comments
+        }
+      }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        byParentId: {
+          ...state.byParentId,
+          [postId]: [...state.byParentId[postId], comment]
         }
       }
     default:

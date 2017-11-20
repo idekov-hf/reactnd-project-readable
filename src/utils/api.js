@@ -10,8 +10,8 @@ export function fetchPosts() {
   }).then(response => response.json())
 }
 
-export function fetchPost(postID) {
-  return fetch(`http://localhost:5001/posts/${postID}`, {
+export function fetchPost(postId) {
+  return fetch(`http://localhost:5001/posts/${postId}`, {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }

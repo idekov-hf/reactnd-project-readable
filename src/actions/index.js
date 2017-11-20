@@ -30,8 +30,8 @@ export const receivePost = post => ({
   post
 })
 
-export const fetchPost = postID => dispatch =>
-  APIUtil.fetchPost(postID).then(post => {
+export const fetchPost = postId => dispatch =>
+  APIUtil.fetchPost(postId).then(post => {
     dispatch(receivePost(post))
     dispatch(fetchComments(post))
   })
@@ -71,3 +71,10 @@ export const fetchComments = post => dispatch => {
     dispatch(receiveComments(comments, post))
   })
 }
+
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const addComment = (comment, postId) => ({
+  type: ADD_COMMENT,
+  comment,
+  postId
+})

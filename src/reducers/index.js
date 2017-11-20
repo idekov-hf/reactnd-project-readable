@@ -58,26 +58,16 @@ function posts(state = defaultPostsState, action) {
         orderBy: value
       }
     case ADJUST_POST_SCORE:
-      if (operation === 'increment') {
-        return {
-          ...state,
-          all: {
-            ...state.all,
-            [post.id]: {
-              ...state.all[post.id],
-              voteScore: state.all[post.id].voteScore + 1
-            }
-          }
-        }
-      } else {
-        return {
-          ...state,
-          all: {
-            ...state.all,
-            [post.id]: {
-              ...state.all[post.id],
-              voteScore: state.all[post.id].voteScore - 1
-            }
+      return {
+        ...state,
+        all: {
+          ...state.all,
+          [post.id]: {
+            ...state.all[post.id],
+            voteScore:
+              operation === 'increment'
+                ? state.all[post.id].voteScore + 1
+                : state.all[post.id].voteScore - 1
           }
         }
       }

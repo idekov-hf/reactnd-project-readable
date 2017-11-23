@@ -13,7 +13,7 @@ class ListPosts extends Component {
       orderPostsBy,
       posts,
       adjustPostScore,
-      comments
+      numComments
     } = this.props
     return (
       <div className="col-sm-8">
@@ -70,7 +70,7 @@ class ListPosts extends Component {
                     </div>
                   </div>
                   <p>
-                    Comments: {comments[post.id] && comments[post.id].length}
+                    Comments: {numComments[post.id]}
                   </p>
                 </li>
               )}
@@ -96,10 +96,18 @@ function mapStateToProps(state, props) {
     })
   }
 
+  const numComments = state.comments.allIds.reduce((obj, commentId) => {
+    const parentId = state.comments.byId[commentId].parentId
+    return {
+      ...obj,
+      [parentId]: obj[parentId] === 1 ? obj[parentId] + 1 : 1
+    }
+  }, {})
+
   return {
     posts,
     orderBy: state.posts.orderBy,
-    comments: state.comments.byParentId
+    numComments: numComments
   }
 }
 

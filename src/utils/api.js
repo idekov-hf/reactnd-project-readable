@@ -43,3 +43,14 @@ export function addComment(comment) {
     body: JSON.stringify(comment)
   }).then(response => response.json())
 }
+
+export function adjustCommentScore(comment, option) {
+  return fetch(`http://localhost:5001/comments/${comment.id}`, {
+    method: 'post',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: option })
+  }).then(response => response.json())
+}

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { adjustCommentScore } from '../actions'
 
 class ListComments extends Component {
   render() {
-    const { comments } = this.props
+    const { comments, adjustCommentScore } = this.props
     return (
       <ul className="list-group">
         {comments.map(comment =>
@@ -23,10 +24,16 @@ class ListComments extends Component {
               </p>
 
               <div className="vote-score-controls">
-                <button value="decrement" onClick={e => console.log(e)}>
+                <button
+                  value="downVote"
+                  onClick={e => adjustCommentScore(comment, e.target.value)}
+                >
                   -
                 </button>
-                <button value="increment" onClick={e => console.log(e)}>
+                <button
+                  value="upVote"
+                  onClick={e => adjustCommentScore(comment, e.target.value)}
+                >
                   +
                 </button>
               </div>
@@ -39,17 +46,27 @@ class ListComments extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const comments =
-    Object.values(state.comments.byParentId).length > 0
-      ? state.comments.byParentId[props.postId]
-      : []
+  const comments = state.comments.allIds
+    .filter(
+      commentId => state.comments.byId[commentId].parentId === props.postId
+    )
+    .reduce(
+      (commentsArr, commentId) => [
+        ...commentsArr,
+        state.comments.byId[commentId]
+      ],
+      []
+    )
   return {
     comments: comments
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {}
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    adjustCommentScore: (comment, option) =>
+      dispatch(adjustCommentScore(comment, option))
+  }
+}
 
-export default connect(mapStateToProps, null)(ListComments)
+export default connect(mapStateToProps, mapDispatchToProps)(ListComments)

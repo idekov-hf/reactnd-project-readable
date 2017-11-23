@@ -47,7 +47,7 @@ class PostDetail extends Component {
             </div>
           </div>
           <p>
-            Comments: {comments[post.id] && comments[post.id].length}
+            Comments: {comments.length}
           </p>
         </div>
 
@@ -70,7 +70,9 @@ function mapStateToProps(state, props) {
     post: state.posts.all[postId] ? state.posts.all[postId] : {},
     postId: postId,
     orderBy: state.posts.orderBy,
-    comments: state.comments.byParentId
+    comments: state.comments.allIds.filter(
+      commentId => state.comments.byId[commentId].parentId === postId
+    )
   }
 }
 

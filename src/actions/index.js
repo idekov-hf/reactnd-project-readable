@@ -83,3 +83,18 @@ export const addComment = newComment => dispatch => {
     dispatch(addCommentToStore(comment))
   })
 }
+
+export const ADJUST_COMMENT_SCORE = 'ADJUST_COMMENT_SCORE'
+export const adjustCommentScoreInStore = (commentId, updatedScore) => ({
+  type: ADJUST_COMMENT_SCORE,
+  commentId,
+  updatedScore
+})
+
+export const adjustCommentScore = (comment, option) => dispatch => {
+  APIUtil.adjustCommentScore(comment, option).then(updatedComment => {
+    const commentId = updatedComment.id
+    const updatedScore = updatedComment.voteScore
+    dispatch(adjustCommentScoreInStore(commentId, updatedScore))
+  })
+}

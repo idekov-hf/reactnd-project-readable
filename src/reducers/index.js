@@ -6,7 +6,8 @@ import {
   ORDER_POSTS,
   ADJUST_POST_SCORE,
   RECEIVE_COMMENTS,
-  ADD_COMMENT
+  ADD_COMMENT,
+  ADJUST_COMMENT_SCORE
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -77,26 +78,46 @@ function posts(state = defaultPostsState, action) {
 }
 
 const defaultCommentsState = {
-  byParentId: {}
+  byId: {},
+  allIds: []
 }
 
 function comments(state = defaultCommentsState, action) {
-  const { type, comments, comment, post } = action
+  const { type, comments, comment, commentId, updatedScore } = action
   switch (type) {
     case RECEIVE_COMMENTS:
       return {
         ...state,
-        byParentId: {
-          ...state.byParentId,
-          [post.id]: comments
-        }
+        byId: {
+          ...state.byId,
+          ...comments.reduce(
+            (commentObj, comment) => ({
+              ...commentObj,
+              [comment.id]: comment
+            }),
+            {}
+          )
+        },
+        allIds: [...state.allIds, ...comments.map(comment => comment.id)]
       }
     case ADD_COMMENT:
       return {
         ...state,
-        byParentId: {
-          ...state.byParentId,
-          [comment.parentId]: [...state.byParentId[comment.parentId], comment]
+        byId: {
+          ...state.byId,
+          [comment.id]: comment
+        },
+        allIds: [...state.allIds, comment.id]
+      }
+    case ADJUST_COMMENT_SCORE:
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [commentId]: {
+            ...state.byId[commentId],
+            voteScore: updatedScore
+          }
         }
       }
     default:

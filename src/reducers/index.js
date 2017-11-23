@@ -77,47 +77,31 @@ function posts(state = defaultPostsState, action) {
   }
 }
 
-const defaultCommentsState = {
-  byId: {},
-  allIds: []
-}
-
-function comments(state = defaultCommentsState, action) {
+function comments(state = {}, action) {
   const { type, comments, comment, commentId, updatedScore } = action
   switch (type) {
     case RECEIVE_COMMENTS:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          ...comments.reduce(
-            (commentObj, comment) => ({
-              ...commentObj,
-              [comment.id]: comment
-            }),
-            {}
-          )
-        },
-        allIds: [...state.allIds, ...comments.map(comment => comment.id)]
+        ...comments.reduce(
+          (commentObj, comment) => ({
+            ...commentObj,
+            [comment.id]: comment
+          }),
+          {}
+        )
       }
     case ADD_COMMENT:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [comment.id]: comment
-        },
-        allIds: [...state.allIds, comment.id]
+        [comment.id]: comment
       }
     case ADJUST_COMMENT_SCORE:
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [commentId]: {
-            ...state.byId[commentId],
-            voteScore: updatedScore
-          }
+        [commentId]: {
+          ...state[commentId],
+          voteScore: updatedScore
         }
       }
     default:

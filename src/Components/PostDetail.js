@@ -56,7 +56,7 @@ class PostDetail extends Component {
         </div>
 
         <div>
-          <ListComments postId={postId} />
+          <ListComments comments={comments} />
         </div>
       </div>
     )
@@ -64,14 +64,13 @@ class PostDetail extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const pathname = props.location.pathname
-  const postId = pathname.slice(pathname.indexOf('/', 1) + 1)
+  const postId = props.match.params.postId
   return {
     post: state.posts.all[postId] ? state.posts.all[postId] : {},
     postId: postId,
     orderBy: state.posts.orderBy,
-    comments: state.comments.allIds.filter(
-      commentId => state.comments.byId[commentId].parentId === postId
+    comments: Object.values(state.comments).filter(
+      comment => comment.parentId === postId
     )
   }
 }

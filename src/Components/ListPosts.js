@@ -96,11 +96,11 @@ function mapStateToProps(state, props) {
     })
   }
 
-  const numComments = state.comments.allIds.reduce((obj, commentId) => {
-    const parentId = state.comments.byId[commentId].parentId
+  const numComments = Object.values(state.comments).reduce((obj, comment) => {
+    const parentId = state.comments[comment.id].parentId
     return {
       ...obj,
-      [parentId]: obj[parentId] === 1 ? obj[parentId] + 1 : 1
+      [parentId]: obj[parentId] === undefined ? 1 : obj[parentId] + 1
     }
   }, {})
 

@@ -23,7 +23,7 @@ class App extends Component {
             )
           }}
         />
-        <Route exact path="/:category/:post_id" component={PostDetail} />
+        <Route exact path="/:category/:postId" component={PostDetail} />
       </div>
     )
   }

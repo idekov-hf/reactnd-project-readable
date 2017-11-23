@@ -45,23 +45,6 @@ class ListComments extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  const comments = state.comments.allIds
-    .filter(
-      commentId => state.comments.byId[commentId].parentId === props.postId
-    )
-    .reduce(
-      (commentsArr, commentId) => [
-        ...commentsArr,
-        state.comments.byId[commentId]
-      ],
-      []
-    )
-  return {
-    comments: comments
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     adjustCommentScore: (comment, option) =>
@@ -69,4 +52,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListComments)
+export default connect(null, mapDispatchToProps)(ListComments)

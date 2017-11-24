@@ -44,13 +44,23 @@ export function addComment(comment) {
   }).then(response => response.json())
 }
 
-export function adjustCommentScore(comment, option) {
-  return fetch(`http://localhost:5001/comments/${comment.id}`, {
+export function adjustCommentScore(commentId, option) {
+  return fetch(`http://localhost:5001/comments/${commentId}`, {
     method: 'post',
     headers: {
       Authorization: 'Authorization',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ option: option })
+  }).then(response => response.json())
+}
+
+export function deleteComment(commentId) {
+  return fetch(`http://localhost:5001/comments/${commentId}`, {
+    method: 'delete',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    }
   }).then(response => response.json())
 }

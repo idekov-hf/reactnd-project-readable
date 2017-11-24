@@ -51,3 +51,24 @@ select.order-by {
 label {
   display: block;
 }
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment .buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.comment .edit-icon:hover {
+  fill: blue;
+  cursor: pointer;
+}
+
+.comment .delete-icon:hover {
+  fill: red;
+  cursor: pointer;
+}

@@ -70,7 +70,7 @@ class ListPosts extends Component {
                     </div>
                   </div>
                   <p>
-                    Comments: {numComments[post.id]}
+                    Comments: {numComments[post.id] ? numComments[post.id] : 0}
                   </p>
                 </li>
               )}

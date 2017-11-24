@@ -1,42 +1,54 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { adjustCommentScore } from '../actions'
+import { adjustCommentScore, deleteComment } from '../actions'
+import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 
 class ListComments extends Component {
   render() {
-    const { comments, adjustCommentScore } = this.props
+    const { comments, adjustCommentScore, deleteComment } = this.props
     return (
       <ul className="list-group">
         {comments.map(comment =>
-          <li className="list-group-item" key={comment.id}>
-            <h4>
-              Author: {comment.author}
-            </h4>
-            <p>
-              {new Date(comment.timestamp).toLocaleString()}
-            </p>
-            <p>
-              {comment.body}
-            </p>
-            <div className="vote-score-container">
-              <p className="vote-score-number">
-                Score: {comment.voteScore}
+          <li className="list-group-item comment" key={comment.id}>
+            <div>
+              <h4>
+                Author: {comment.author}
+              </h4>
+              <p>
+                {new Date(comment.timestamp).toLocaleString()}
               </p>
+              <p>
+                {comment.body}
+              </p>
+              <div className="vote-score-container">
+                <p className="vote-score-number">
+                  Score: {comment.voteScore}
+                </p>
 
-              <div className="vote-score-controls">
-                <button
-                  value="downVote"
-                  onClick={e => adjustCommentScore(comment, e.target.value)}
-                >
-                  -
-                </button>
-                <button
-                  value="upVote"
-                  onClick={e => adjustCommentScore(comment, e.target.value)}
-                >
-                  +
-                </button>
+                <div className="vote-score-controls">
+                  <button
+                    value="downVote"
+                    onClick={e => adjustCommentScore(comment, e.target.value)}
+                  >
+                    -
+                  </button>
+                  <button
+                    value="upVote"
+                    onClick={e => adjustCommentScore(comment, e.target.value)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
+            </div>
+
+            <div className="buttons">
+              <FaEdit size={30} className="edit-icon" />
+              <FaTrashO
+                size={30}
+                className="delete-icon"
+                onClick={() => deleteComment(comment)}
+              />
             </div>
           </li>
         )}
@@ -48,7 +60,8 @@ class ListComments extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     adjustCommentScore: (comment, option) =>
-      dispatch(adjustCommentScore(comment, option))
+      dispatch(adjustCommentScore(comment, option)),
+    deleteComment: comment => dispatch(deleteComment(comment))
   }
 }
 

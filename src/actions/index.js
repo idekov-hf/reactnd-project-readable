@@ -92,9 +92,21 @@ export const adjustCommentScoreInStore = (commentId, updatedScore) => ({
 })
 
 export const adjustCommentScore = (comment, option) => dispatch => {
-  APIUtil.adjustCommentScore(comment, option).then(updatedComment => {
+  APIUtil.adjustCommentScore(comment.id, option).then(updatedComment => {
     const commentId = updatedComment.id
     const updatedScore = updatedComment.voteScore
     dispatch(adjustCommentScoreInStore(commentId, updatedScore))
   })
+}
+
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const deleteCommentInStore = commentId => ({
+  type: DELETE_COMMENT,
+  commentId
+})
+
+export const deleteComment = comment => dispatch => {
+  APIUtil.deleteComment(comment.id).then(() =>
+    dispatch(deleteCommentInStore(comment.id))
+  )
 }

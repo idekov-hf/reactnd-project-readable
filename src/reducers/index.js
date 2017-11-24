@@ -7,7 +7,8 @@ import {
   ADJUST_POST_SCORE,
   RECEIVE_COMMENTS,
   ADD_COMMENT,
-  ADJUST_COMMENT_SCORE
+  ADJUST_COMMENT_SCORE,
+  DELETE_COMMENT
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -103,6 +104,18 @@ function comments(state = {}, action) {
           ...state[commentId],
           voteScore: updatedScore
         }
+      }
+    case DELETE_COMMENT:
+      return {
+        ...Object.values(state)
+          .filter(comment => comment.id !== commentId)
+          .reduce(
+            (comments, comment) => ({
+              ...comments,
+              [comment.id]: comment
+            }),
+            {}
+          )
       }
     default:
       return state

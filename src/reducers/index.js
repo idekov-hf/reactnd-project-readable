@@ -8,7 +8,8 @@ import {
   RECEIVE_COMMENTS,
   ADD_COMMENT,
   ADJUST_COMMENT_SCORE,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPDATE_COMMENT
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -116,6 +117,11 @@ function comments(state = {}, action) {
             }),
             {}
           )
+      }
+    case UPDATE_COMMENT:
+      return {
+        ...state,
+        [comment.id]: comment
       }
     default:
       return state

@@ -110,3 +110,15 @@ export const deleteComment = comment => dispatch => {
     dispatch(deleteCommentInStore(comment.id))
   )
 }
+
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+export const updateCommentInStore = comment => ({
+  type: UPDATE_COMMENT,
+  comment
+})
+
+export const updateComment = (commentId, commentDetails) => dispatch => {
+  APIUtil.updateComment(commentId, commentDetails).then(updatedComment =>
+    dispatch(updateCommentInStore(updatedComment))
+  )
+}

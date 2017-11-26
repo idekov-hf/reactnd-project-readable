@@ -64,3 +64,14 @@ export function deleteComment(commentId) {
     }
   }).then(response => response.json())
 }
+
+export function updateComment(commentId, updatedComment) {
+  return fetch(`http://localhost:5001/comments/${commentId}`, {
+    method: 'put',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedComment)
+  }).then(response => response.json())
+}

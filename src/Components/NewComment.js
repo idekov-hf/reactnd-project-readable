@@ -6,15 +6,19 @@ import { generateId } from '../utils/helperMethods'
 class NewComment extends Component {
   handleSubmit(event) {
     event.preventDefault()
+    const nameInput = event.target.nameInput
+    const commentTextarea = event.target.commentTextarea
     const postId = this.props.postId
     const newComment = {
       id: generateId(),
       timestamp: Date.now(),
-      body: event.target.commentTextarea.value,
-      author: event.target.nameInput.value,
+      body: commentTextarea.value,
+      author: nameInput.value,
       parentId: postId
     }
     this.props.addComment(newComment, postId)
+    nameInput.value = ''
+    commentTextarea.value = ''
   }
 
   render() {

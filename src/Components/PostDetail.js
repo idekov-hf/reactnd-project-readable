@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchPost, adjustServerPostScore } from '../actions'
 import NewComment from './NewComment'
 import ListComments from './ListComments'
+import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -49,14 +50,27 @@ class PostDetail extends Component {
           <p>
             Comments: {comments.length}
           </p>
+          <div className="post-buttons">
+            <button className="btn btn-info edit-icon">
+              <FaEdit size={20} onClick={() => {}} />
+            </button>
+            <button className="btn btn-danger delete-icon">
+              <FaTrashO size={20} onClick={() => {}} />
+            </button>
+          </div>
         </div>
 
-        <div className="new-comment">
-          <NewComment postId={postId} />
+        <div className="comments-header-container">
+          <h2>Comments</h2>
+          <hr />
         </div>
 
         <div>
           <ListComments comments={comments} />
+        </div>
+
+        <div className="new-comment">
+          <NewComment postId={postId} />
         </div>
       </div>
     )

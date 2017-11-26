@@ -40,7 +40,7 @@ select.order-by {
   padding: 0 10px 10px;
   border-radius: 10px;
   background: #e5eefc;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .post h1 {
@@ -50,6 +50,10 @@ select.order-by {
 
 label {
   display: block;
+}
+
+.new-comment {
+  margin-top: 10px;
 }
 
 .comment {
@@ -69,16 +73,36 @@ label {
 }
 
 .comment .edit-icon:hover {
-  fill: blue;
+  fill: #66bfde;
   cursor: pointer;
 }
 
 .comment .delete-icon:hover {
-  fill: red;
+  fill: #d4524f;
   cursor: pointer;
 }
 
 /* Remove scroll on the body when react-modal is open */
 .ReactModal__Body--open {
   overflow: hidden;
+}
+
+.comments-header-container {
+  margin-top: 20px;
+}
+
+.comments-header-container h2 {
+  margin: 0px;
+}
+
+.comments-header-container hr {
+  margin-top: 10px;
+}
+
+.post-buttons {
+  display: flex;
+}
+
+.post-buttons .edit-icon {
+  margin-right: 10px;
 }

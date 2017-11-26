@@ -57,6 +57,11 @@ label {
   justify-content: space-between;
 }
 
+.comment .content {
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
 .comment .buttons {
   display: flex;
   flex-direction: column;

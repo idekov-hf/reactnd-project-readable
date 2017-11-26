@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { adjustCommentScore, deleteComment } from '../actions'
 import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
+import Modal from 'react-modal'
 
 class ListComments extends Component {
   render() {
@@ -10,7 +11,7 @@ class ListComments extends Component {
       <ul className="list-group">
         {comments.map(comment =>
           <li className="list-group-item comment" key={comment.id}>
-            <div>
+            <div className="content">
               <h4>
                 Author: {comment.author}
               </h4>

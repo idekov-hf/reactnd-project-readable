@@ -75,3 +75,14 @@ export function updateComment(commentId, updatedComment) {
     body: JSON.stringify(updatedComment)
   }).then(response => response.json())
 }
+
+export function updatePost(postId, updatedPost) {
+  return fetch(`http://localhost:5001/posts/${postId}`, {
+    method: 'put',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedPost)
+  }).then(response => response.json())
+}

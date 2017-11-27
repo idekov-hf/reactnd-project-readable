@@ -122,3 +122,15 @@ export const updateComment = (commentId, commentDetails) => dispatch => {
     dispatch(updateCommentInStore(updatedComment))
   )
 }
+
+export const UPDATE_POST = 'UPDATE_POST'
+export const updatePostInStore = post => ({
+  type: UPDATE_POST,
+  post
+})
+
+export const updatePost = (postId, postData) => dispatch => {
+  APIUtil.updatePost(postId, postData).then(updatedPost =>
+    dispatch(updatePostInStore(updatedPost))
+  )
+}

@@ -9,7 +9,8 @@ import {
   ADD_COMMENT,
   ADJUST_COMMENT_SCORE,
   DELETE_COMMENT,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  UPDATE_POST
 } from '../actions'
 
 const defaultCategoriesState = {
@@ -72,6 +73,14 @@ function posts(state = defaultPostsState, action) {
                 ? state.all[post.id].voteScore + 1
                 : state.all[post.id].voteScore - 1
           }
+        }
+      }
+    case UPDATE_POST:
+      return {
+        ...state,
+        all: {
+          ...state.all,
+          [post.id]: post
         }
       }
     default:

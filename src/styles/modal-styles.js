@@ -1,4 +1,4 @@
-export const commentModalStyles = {
+export const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)'
   },

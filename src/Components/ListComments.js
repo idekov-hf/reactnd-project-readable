@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { adjustCommentScore, deleteComment, updateComment } from '../actions'
 import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 import Modal from 'react-modal'
-import { commentModalStyles } from '../styles/modal-styles'
+import { modalStyles } from '../styles/modal-styles'
 import Textarea from 'react-textarea-autosize'
 
 class ListComments extends Component {
@@ -93,7 +93,7 @@ class ListComments extends Component {
         <Modal
           isOpen={commentModalOpen}
           onRequestClose={this.closeCommentModal}
-          style={commentModalStyles}
+          style={modalStyles}
         >
           <form onSubmit={event => this.handleUpdate(event)}>
             <label>

@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux"
 import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
@@ -10,12 +10,13 @@ import {
   ADJUST_COMMENT_SCORE,
   DELETE_COMMENT,
   UPDATE_COMMENT,
-  UPDATE_POST
-} from '../actions'
+  UPDATE_POST,
+  DELETE_POST
+} from "../actions"
 
 const defaultCategoriesState = {
   all: [],
-  selected: ''
+  selected: ""
 }
 
 function categories(state = defaultCategoriesState, action) {
@@ -30,11 +31,11 @@ function categories(state = defaultCategoriesState, action) {
 
 const defaultPostsState = {
   all: {},
-  orderBy: 'voteScore'
+  orderBy: "voteScore"
 }
 
 function posts(state = defaultPostsState, action) {
-  const { type, posts, value, post, operation } = action
+  const { type, posts, value, post, operation, postId } = action
   switch (type) {
     case RECEIVE_POSTS:
       return {
@@ -45,9 +46,12 @@ function posts(state = defaultPostsState, action) {
         }, {})
       }
     case RECEIVE_POST:
-      const postId = post.id
-      const postByID = { [postId]: post }
-      return { ...state, all: postByID }
+      return {
+        ...state,
+        all: {
+          [post.id]: post
+        }
+      }
     case ORDER_POSTS:
       const orderedPosts = Object.values(state.all).sort((a, b) => {
         if (a[value] > b[value]) return -1
@@ -69,7 +73,7 @@ function posts(state = defaultPostsState, action) {
           [post.id]: {
             ...state.all[post.id],
             voteScore:
-              operation === 'increment'
+              operation === "increment"
                 ? state.all[post.id].voteScore + 1
                 : state.all[post.id].voteScore - 1
           }
@@ -81,6 +85,21 @@ function posts(state = defaultPostsState, action) {
         all: {
           ...state.all,
           [post.id]: post
+        }
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        all: {
+          ...Object.values(state.all)
+            .filter(post => post.id !== postId)
+            .reduce(
+              (allPosts, post) => ({
+                ...allPosts,
+                [post.id]: post
+              }),
+              {}
+            )
         }
       }
     default:

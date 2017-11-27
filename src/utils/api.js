@@ -1,23 +1,23 @@
 export function fetchCategories() {
-  return fetch('http://localhost:5001/categories', {
+  return fetch('http://localhost:3001/categories', {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }
 
 export function fetchPosts() {
-  return fetch('http://localhost:5001/posts', {
+  return fetch('http://localhost:3001/posts', {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }
 
 export function fetchPost(postId) {
-  return fetch(`http://localhost:5001/posts/${postId}`, {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }
 
 export function adjustPostScore(post, option) {
-  return fetch(`http://localhost:5001/posts/${post.id}`, {
+  return fetch(`http://localhost:3001/posts/${post.id}`, {
     method: 'post',
     headers: {
       Authorization: 'Authorization',
@@ -28,13 +28,13 @@ export function adjustPostScore(post, option) {
 }
 
 export function fetchComments(postId) {
-  return fetch(`http://localhost:5001/posts/${postId}/comments`, {
+  return fetch(`http://localhost:3001/posts/${postId}/comments`, {
     headers: { Authorization: 'Authorization' }
   }).then(response => response.json())
 }
 
 export function addComment(comment) {
-  return fetch(`http://localhost:5001/comments`, {
+  return fetch(`http://localhost:3001/comments`, {
     method: 'post',
     headers: {
       Authorization: 'Authorization',
@@ -45,7 +45,7 @@ export function addComment(comment) {
 }
 
 export function adjustCommentScore(commentId, option) {
-  return fetch(`http://localhost:5001/comments/${commentId}`, {
+  return fetch(`http://localhost:3001/comments/${commentId}`, {
     method: 'post',
     headers: {
       Authorization: 'Authorization',
@@ -56,7 +56,7 @@ export function adjustCommentScore(commentId, option) {
 }
 
 export function deleteComment(commentId) {
-  return fetch(`http://localhost:5001/comments/${commentId}`, {
+  return fetch(`http://localhost:3001/comments/${commentId}`, {
     method: 'delete',
     headers: {
       Authorization: 'Authorization',
@@ -66,7 +66,7 @@ export function deleteComment(commentId) {
 }
 
 export function updateComment(commentId, updatedComment) {
-  return fetch(`http://localhost:5001/comments/${commentId}`, {
+  return fetch(`http://localhost:3001/comments/${commentId}`, {
     method: 'put',
     headers: {
       Authorization: 'Authorization',
@@ -77,7 +77,7 @@ export function updateComment(commentId, updatedComment) {
 }
 
 export function updatePost(postId, updatedPost) {
-  return fetch(`http://localhost:5001/posts/${postId}`, {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
     method: 'put',
     headers: {
       Authorization: 'Authorization',
@@ -85,4 +85,14 @@ export function updatePost(postId, updatedPost) {
     },
     body: JSON.stringify(updatedPost)
   }).then(response => response.json())
+}
+
+export function deletePost(postId) {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
+    method: 'delete',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    }
+  })
 }

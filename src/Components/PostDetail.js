@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { fetchPost, adjustServerPostScore, updatePost } from '../actions'
-import NewComment from './NewComment'
-import ListComments from './ListComments'
-import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
-import Modal from 'react-modal'
-import Textarea from 'react-textarea-autosize'
-import { modalStyles } from '../styles/modal-styles'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import {
+  fetchPost,
+  adjustServerPostScore,
+  updatePost,
+  deletePost
+} from "../actions"
+import NewComment from "./NewComment"
+import ListComments from "./ListComments"
+import { FaEdit, FaTrashO } from "react-icons/lib/fa"
+import Modal from "react-modal"
+import Textarea from "react-textarea-autosize"
+import { modalStyles } from "../styles/modal-styles"
 
 class PostDetail extends Component {
   state = {
@@ -24,7 +29,7 @@ class PostDetail extends Component {
   closePostModal = () => {
     this.setState({ postModalOpen: false })
   }
-  handleUpdate(event) {
+  handlePostEdit(event) {
     event.preventDefault()
     this.closePostModal()
 
@@ -35,28 +40,22 @@ class PostDetail extends Component {
 
     this.props.updatePost(this.state.postId, updatedPostData)
   }
+  handlePostDelete = (event, postId) => {
+    this.props.deletePost(postId)
+    this.props.history.push("/")
+  }
   render() {
     const { postModalOpen } = this.state
     const { post, postId, adjustPostScore, orderBy, comments } = this.props
     return (
       <div>
         <div className="post">
-          <h1>
-            {post.title}
-          </h1>
-          <h3>
-            Author: {post.author}
-          </h3>
-          <p>
-            {new Date(post.timestamp).toLocaleString()}
-          </p>
-          <p>
-            {post.body}
-          </p>
+          <h1>{post.title}</h1>
+          <h3>Author: {post.author}</h3>
+          <p>{new Date(post.timestamp).toLocaleString()}</p>
+          <p>{post.body}</p>
           <div className="vote-score-container">
-            <p className="vote-score-number">
-              Score: {post.voteScore}
-            </p>
+            <p className="vote-score-number">Score: {post.voteScore}</p>
             <div className="vote-score-controls">
               <button
                 value="decrement"
@@ -72,9 +71,7 @@ class PostDetail extends Component {
               </button>
             </div>
           </div>
-          <p>
-            Comments: {comments.length}
-          </p>
+          <p>Comments: {comments.length}</p>
           <div className="post-buttons">
             <button
               className="btn btn-info edit-icon"
@@ -82,8 +79,11 @@ class PostDetail extends Component {
             >
               <FaEdit size={20} />
             </button>
-            <button className="btn btn-danger delete-icon">
-              <FaTrashO size={20} onClick={() => {}} />
+            <button
+              className="btn btn-danger delete-icon"
+              onClick={event => this.handlePostDelete(event, post.id)}
+            >
+              <FaTrashO size={20} />
             </button>
           </div>
         </div>
@@ -106,7 +106,7 @@ class PostDetail extends Component {
           onRequestClose={this.closePostModal}
           style={modalStyles}
         >
-          <form onSubmit={event => this.handleUpdate(event)}>
+          <form onSubmit={event => this.handlePostEdit(event)}>
             <label>
               Title
               <input
@@ -154,7 +154,8 @@ function mapDispatchToProps(dispatch) {
     fetchPost: postId => dispatch(fetchPost(postId)),
     adjustPostScore: (post, operation, orderBy) =>
       dispatch(adjustServerPostScore(post, operation, orderBy)),
-    updatePost: (postId, postData) => dispatch(updatePost(postId, postData))
+    updatePost: (postId, postData) => dispatch(updatePost(postId, postData)),
+    deletePost: postId => dispatch(deletePost(postId))
   }
 }
 

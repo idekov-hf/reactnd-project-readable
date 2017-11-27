@@ -1,6 +1,6 @@
-import * as APIUtil from '../utils/api'
+import * as APIUtil from "../utils/api"
 
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
+export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
   categories
@@ -11,7 +11,7 @@ export const fetchCategories = () => dispatch =>
     dispatch(receiveCategories(categories))
   )
 
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
@@ -21,10 +21,10 @@ export const fetchPosts = () => dispatch =>
   APIUtil.fetchPosts().then(posts => {
     dispatch(receivePosts(posts))
     posts.forEach(post => dispatch(fetchComments(post)))
-    dispatch(orderPostsBy('voteScore'))
+    dispatch(orderPostsBy("voteScore"))
   })
 
-export const RECEIVE_POST = 'RECEIVE_POST'
+export const RECEIVE_POST = "RECEIVE_POST"
 export const receivePost = post => ({
   type: RECEIVE_POST,
   post
@@ -36,13 +36,13 @@ export const fetchPost = postId => dispatch =>
     dispatch(fetchComments(post))
   })
 
-export const ORDER_POSTS = 'ORDER_POSTS'
+export const ORDER_POSTS = "ORDER_POSTS"
 export const orderPostsBy = value => ({
   type: ORDER_POSTS,
   value
 })
 
-export const ADJUST_POST_SCORE = 'ADJUST_POST_SCORE'
+export const ADJUST_POST_SCORE = "ADJUST_POST_SCORE"
 export const adjustLocalPostScore = (post, operation) => ({
   type: ADJUST_POST_SCORE,
   post,
@@ -50,16 +50,16 @@ export const adjustLocalPostScore = (post, operation) => ({
 })
 
 export const adjustServerPostScore = (post, operation, orderBy) => dispatch => {
-  const option = operation === 'increment' ? 'upVote' : 'downVote'
+  const option = operation === "increment" ? "upVote" : "downVote"
   APIUtil.adjustPostScore(post, option).then(() => {
     dispatch(adjustLocalPostScore(post, operation))
-    if (orderBy === 'voteScore') {
-      dispatch(orderPostsBy('voteScore'))
+    if (orderBy === "voteScore") {
+      dispatch(orderPostsBy("voteScore"))
     }
   })
 }
 
-export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 export const receiveComments = (comments, post) => ({
   type: RECEIVE_COMMENTS,
   comments,
@@ -72,7 +72,7 @@ export const fetchComments = post => dispatch => {
   })
 }
 
-export const ADD_COMMENT = 'ADD_COMMENT'
+export const ADD_COMMENT = "ADD_COMMENT"
 export const addCommentToStore = comment => ({
   type: ADD_COMMENT,
   comment
@@ -84,7 +84,7 @@ export const addComment = newComment => dispatch => {
   })
 }
 
-export const ADJUST_COMMENT_SCORE = 'ADJUST_COMMENT_SCORE'
+export const ADJUST_COMMENT_SCORE = "ADJUST_COMMENT_SCORE"
 export const adjustCommentScoreInStore = (commentId, updatedScore) => ({
   type: ADJUST_COMMENT_SCORE,
   commentId,
@@ -99,7 +99,7 @@ export const adjustCommentScore = (comment, option) => dispatch => {
   })
 }
 
-export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const DELETE_COMMENT = "DELETE_COMMENT"
 export const deleteCommentInStore = commentId => ({
   type: DELETE_COMMENT,
   commentId
@@ -111,7 +111,7 @@ export const deleteComment = comment => dispatch => {
   )
 }
 
-export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
 export const updateCommentInStore = comment => ({
   type: UPDATE_COMMENT,
   comment
@@ -123,7 +123,7 @@ export const updateComment = (commentId, commentDetails) => dispatch => {
   )
 }
 
-export const UPDATE_POST = 'UPDATE_POST'
+export const UPDATE_POST = "UPDATE_POST"
 export const updatePostInStore = post => ({
   type: UPDATE_POST,
   post
@@ -133,4 +133,16 @@ export const updatePost = (postId, postData) => dispatch => {
   APIUtil.updatePost(postId, postData).then(updatedPost =>
     dispatch(updatePostInStore(updatedPost))
   )
+}
+
+export const DELETE_POST = "DELETE_POST"
+export const deletePostInStore = postId => {
+  return {
+    type: DELETE_POST,
+    postId
+  }
+}
+
+export const deletePost = postId => dispatch => {
+  APIUtil.deletePost(postId).then(() => dispatch(deletePostInStore(postId)))
 }

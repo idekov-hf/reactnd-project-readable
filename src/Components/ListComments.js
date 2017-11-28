@@ -40,18 +40,12 @@ class ListComments extends Component {
     return (
       <div>
         <ul className="list-group">
-          {comments.map(comment =>
+          {comments.map(comment => (
             <li className="list-group-item comment" key={comment.id}>
               <div className="content">
-                <h4>
-                  Author: {comment.author}
-                </h4>
-                <p>
-                  {new Date(comment.timestamp).toLocaleString()}
-                </p>
-                <p>
-                  {comment.body}
-                </p>
+                <h4>Author: {comment.author}</h4>
+                <p>{new Date(comment.timestamp).toLocaleString()}</p>
+                <p>{comment.body}</p>
                 <div className="vote-score-container">
                   <p className="vote-score-number">
                     Score: {comment.voteScore}
@@ -87,7 +81,7 @@ class ListComments extends Component {
                 />
               </div>
             </li>
-          )}
+          ))}
         </ul>
 
         <Modal
@@ -96,9 +90,7 @@ class ListComments extends Component {
           style={modalStyles}
         >
           <form onSubmit={event => this.handleUpdate(event)}>
-            <label>
-              Author: {this.state.commentAuthor}
-            </label>
+            <label>Author: {this.state.commentAuthor}</label>
             <label>
               Edit your comment:
               <Textarea
@@ -106,7 +98,7 @@ class ListComments extends Component {
                 className="form-control"
                 placeholder="Type your comment here"
                 defaultValue={this.state.commentBody}
-                minRows={2}
+                minRows={4}
                 maxRows={8}
               />
             </label>

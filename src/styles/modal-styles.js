@@ -3,7 +3,7 @@ export const modalStyles = {
     backgroundColor: 'rgba(255, 255, 255, 0.9)'
   },
   content: {
-    top: '35%',
+    top: '20%',
     left: '40px',
     right: '40px',
     bottom: 'auto'

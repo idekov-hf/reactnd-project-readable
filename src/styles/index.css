@@ -48,7 +48,8 @@ select.order-by {
   padding-top: 10px;
 }
 
-label {
+label,
+select.new-post-select {
   display: block;
 }
 

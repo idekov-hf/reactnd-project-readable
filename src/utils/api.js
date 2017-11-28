@@ -27,6 +27,38 @@ export function adjustPostScore(post, option) {
   }).then(response => response.json())
 }
 
+export function updatePost(postId, updatedPost) {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
+    method: 'put',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedPost)
+  }).then(response => response.json())
+}
+
+export function deletePost(postId) {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
+    method: 'delete',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export function addPost(post) {
+  return fetch('http://localhost:3001/posts', {
+    method: 'post',
+    headers: {
+      Authorization: 'Authorization',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(post)
+  }).then(response => response.json())
+}
+
 export function fetchComments(postId) {
   return fetch(`http://localhost:3001/posts/${postId}/comments`, {
     headers: { Authorization: 'Authorization' }
@@ -74,25 +106,4 @@ export function updateComment(commentId, updatedComment) {
     },
     body: JSON.stringify(updatedComment)
   }).then(response => response.json())
-}
-
-export function updatePost(postId, updatedPost) {
-  return fetch(`http://localhost:3001/posts/${postId}`, {
-    method: 'put',
-    headers: {
-      Authorization: 'Authorization',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updatedPost)
-  }).then(response => response.json())
-}
-
-export function deletePost(postId) {
-  return fetch(`http://localhost:3001/posts/${postId}`, {
-    method: 'delete',
-    headers: {
-      Authorization: 'Authorization',
-      'Content-Type': 'application/json'
-    }
-  })
 }

@@ -1,4 +1,4 @@
-import { combineReducers } from "redux"
+import { combineReducers } from 'redux'
 import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
@@ -11,12 +11,13 @@ import {
   DELETE_COMMENT,
   UPDATE_COMMENT,
   UPDATE_POST,
-  DELETE_POST
-} from "../actions"
+  DELETE_POST,
+  ADD_POST
+} from '../actions'
 
 const defaultCategoriesState = {
   all: [],
-  selected: ""
+  selected: ''
 }
 
 function categories(state = defaultCategoriesState, action) {
@@ -31,7 +32,7 @@ function categories(state = defaultCategoriesState, action) {
 
 const defaultPostsState = {
   all: {},
-  orderBy: "voteScore"
+  orderBy: 'voteScore'
 }
 
 function posts(state = defaultPostsState, action) {
@@ -73,7 +74,7 @@ function posts(state = defaultPostsState, action) {
           [post.id]: {
             ...state.all[post.id],
             voteScore:
-              operation === "increment"
+              operation === 'increment'
                 ? state.all[post.id].voteScore + 1
                 : state.all[post.id].voteScore - 1
           }
@@ -100,6 +101,14 @@ function posts(state = defaultPostsState, action) {
               }),
               {}
             )
+        }
+      }
+    case ADD_POST:
+      return {
+        ...state,
+        all: {
+          ...state.all,
+          [post.id]: post
         }
       }
     default:

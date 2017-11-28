@@ -1,17 +1,17 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   fetchPost,
   adjustServerPostScore,
   updatePost,
   deletePost
-} from "../actions"
-import NewComment from "./NewComment"
-import ListComments from "./ListComments"
-import { FaEdit, FaTrashO } from "react-icons/lib/fa"
-import Modal from "react-modal"
-import Textarea from "react-textarea-autosize"
-import { modalStyles } from "../styles/modal-styles"
+} from '../actions'
+import NewComment from './NewComment'
+import ListComments from './ListComments'
+import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
+import Modal from 'react-modal'
+import Textarea from 'react-textarea-autosize'
+import { modalStyles } from '../styles/modal-styles'
 
 class PostDetail extends Component {
   state = {
@@ -42,7 +42,7 @@ class PostDetail extends Component {
   }
   handlePostDelete = (event, postId) => {
     this.props.deletePost(postId)
-    this.props.history.push("/")
+    this.props.history.push('/')
   }
   render() {
     const { postModalOpen } = this.state
@@ -123,7 +123,7 @@ class PostDetail extends Component {
                 className="form-control"
                 placeholder="Your post's body"
                 defaultValue={post.body}
-                minRows={2}
+                minRows={4}
                 maxRows={8}
               />
             </label>

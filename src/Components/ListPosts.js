@@ -4,30 +4,41 @@ import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import { modalStyles } from '../styles/modal-styles'
 import Textarea from 'react-textarea-autosize'
+import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 import {
   fetchPosts,
   orderPostsBy,
   adjustServerPostScore,
-  addPost
+  addPost,
+  deletePost,
+  updatePost
 } from '../actions'
 import { generateId } from '../utils/helperMethods'
 
 class ListPosts extends Component {
   state = {
-    postModalOpen: false
+    newPostModalOpen: false,
+    postEditModalOpen: false,
+    post: null
   }
   componentDidMount() {
     this.props.fetchPosts()
   }
-  openPostModal = () => {
-    this.setState({ postModalOpen: true })
+  openNewPostModal = () => {
+    this.setState({ newPostModalOpen: true })
   }
-  closePostModal = () => {
-    this.setState({ postModalOpen: false })
+  closeNewPostModal = () => {
+    this.setState({ newPostModalOpen: false })
+  }
+  openPostEditModal = (event, post) => {
+    this.setState({ postEditModalOpen: true, post })
+  }
+  closePostEditModal = () => {
+    this.setState({ postEditModalOpen: false })
   }
   handleCreatePost = event => {
     event.preventDefault()
-    this.closePostModal()
+    this.closeNewPostModal()
 
     const newPost = {
       id: generateId(),
@@ -39,6 +50,20 @@ class ListPosts extends Component {
     }
 
     this.props.addPost(newPost)
+  }
+  handlePostDelete = (event, postId) => {
+    this.props.deletePost(postId)
+  }
+  handlePostEdit(event) {
+    event.preventDefault()
+    this.closePostEditModal()
+
+    const updatedPostData = {
+      title: event.target.titleInput.value,
+      body: event.target.bodyTextarea.value
+    }
+
+    this.props.updatePost(this.state.post.id, updatedPostData)
   }
   render() {
     const {
@@ -63,7 +88,7 @@ class ListPosts extends Component {
               <option value="timestamp">Newest Post</option>
             </select>
           </div>
-          <button className="btn btn-success" onClick={this.openPostModal}>
+          <button className="btn btn-success" onClick={this.openNewPostModal}>
             Add Post +
           </button>
         </div>
@@ -71,40 +96,60 @@ class ListPosts extends Component {
           <div>
             <ul className="list-group">
               {posts.map(post => (
-                <li className="list-group-item" key={post.id}>
-                  <h4>
-                    <Link to={`/${post.category}/${post.id}`}>
-                      {post.title}
-                    </Link>
-                  </h4>
-                  <p>Author: {post.author}</p>
-                  <p>
-                    Date created: {new Date(post.timestamp).toLocaleString()}
-                  </p>
-                  <div className="vote-score-container">
-                    <p className="vote-score-number">Score: {post.voteScore}</p>
-                    <div className="vote-score-controls">
-                      <button
-                        value="decrement"
-                        onClick={e =>
-                          adjustPostScore(post, e.target.value, orderBy)
-                        }
-                      >
-                        -
-                      </button>
-                      <button
-                        value="increment"
-                        onClick={e =>
-                          adjustPostScore(post, e.target.value, orderBy)
-                        }
-                      >
-                        +
-                      </button>
+                <li className="list-group-item post-list-item" key={post.id}>
+                  <div className="content">
+                    <h4>
+                      <Link to={`/${post.category}/${post.id}`}>
+                        {post.title}
+                      </Link>
+                    </h4>
+                    <p>Author: {post.author}</p>
+                    <p>
+                      Date created: {new Date(post.timestamp).toLocaleString()}
+                    </p>
+                    <div className="vote-score-container">
+                      <p className="vote-score-number">
+                        Score: {post.voteScore}
+                      </p>
+                      <div className="vote-score-controls">
+                        <button
+                          value="decrement"
+                          onClick={e =>
+                            adjustPostScore(post, e.target.value, orderBy)
+                          }
+                        >
+                          -
+                        </button>
+                        <button
+                          value="increment"
+                          onClick={e =>
+                            adjustPostScore(post, e.target.value, orderBy)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
+                    <p>
+                      Comments:{' '}
+                      {numComments[post.id] ? numComments[post.id] : 0}
+                    </p>
                   </div>
-                  <p>
-                    Comments: {numComments[post.id] ? numComments[post.id] : 0}
-                  </p>
+
+                  <div className="buttons">
+                    <FaEdit
+                      size={30}
+                      className="edit-icon"
+                      onClick={event => this.openPostEditModal(event, post)}
+                    />
+                    <FaTrashO
+                      size={30}
+                      className="delete-icon"
+                      onClick={event => {
+                        this.handlePostDelete(event, post.id)
+                      }}
+                    />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -112,8 +157,8 @@ class ListPosts extends Component {
         </div>
 
         <Modal
-          isOpen={this.state.postModalOpen}
-          onRequestClose={this.closePostModal}
+          isOpen={this.state.newPostModalOpen}
+          onRequestClose={this.closeNewPostModal}
           style={modalStyles}
         >
           <form onSubmit={event => this.handleCreatePost(event)}>
@@ -158,6 +203,38 @@ class ListPosts extends Component {
             </button>
           </form>
         </Modal>
+
+        <Modal
+          isOpen={this.state.postEditModalOpen}
+          onRequestClose={this.closePostEditModal}
+          style={modalStyles}
+        >
+          <form onSubmit={event => this.handlePostEdit(event)}>
+            <label>
+              Title
+              <input
+                name="titleInput"
+                className="form-control"
+                placeholder="Title"
+                defaultValue={this.state.post ? this.state.post.title : ''}
+              />
+            </label>
+            <label>
+              Post body
+              <Textarea
+                name="bodyTextarea"
+                className="form-control"
+                placeholder="Your post's body"
+                defaultValue={this.state.post ? this.state.post.body : ''}
+                minRows={4}
+                maxRows={8}
+              />
+            </label>
+            <button type="submit" className="btn btn-default">
+              Update
+            </button>
+          </form>
+        </Modal>
       </div>
     )
   }
@@ -199,7 +276,9 @@ function mapDispatchToProps(dispatch) {
     orderPostsBy: value => dispatch(orderPostsBy(value)),
     adjustPostScore: (post, operation, orderBy) =>
       dispatch(adjustServerPostScore(post, operation, orderBy)),
-    addPost: post => dispatch(addPost(post))
+    addPost: post => dispatch(addPost(post)),
+    deletePost: postId => dispatch(deletePost(postId)),
+    updatePost: (postId, postData) => dispatch(updatePost(postId, postData))
   }
 }
 

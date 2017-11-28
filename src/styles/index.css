@@ -62,23 +62,23 @@ select.new-post-select {
   justify-content: space-between;
 }
 
-.comment .content {
+.content {
   max-width: 90%;
   word-wrap: break-word;
 }
 
-.comment .buttons {
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-.comment .edit-icon:hover {
+.edit-icon:hover {
   fill: #66bfde;
   cursor: pointer;
 }
 
-.comment .delete-icon:hover {
+.delete-icon:hover {
   fill: #d4524f;
   cursor: pointer;
 }
@@ -106,4 +106,9 @@ select.new-post-select {
 
 .post-buttons .edit-icon {
   margin-right: 10px;
+}
+
+.post-list-item {
+  display: flex;
+  justify-content: space-between;
 }

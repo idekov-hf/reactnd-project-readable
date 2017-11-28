@@ -49,6 +49,12 @@ class PostDetail extends Component {
     const { post, postId, adjustPostScore, orderBy, comments } = this.props
     return (
       <div>
+        <button
+          className="btn btn-primary go-back"
+          onClick={() => this.props.history.push('/')}
+        >
+          ⬅︎ Go Back
+        </button>
         <div className="post">
           <h1>{post.title}</h1>
           <h3>Author: {post.author}</h3>

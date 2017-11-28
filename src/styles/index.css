@@ -112,3 +112,7 @@ select.new-post-select {
   display: flex;
   justify-content: space-between;
 }
+
+button.go-back {
+  margin-top: 10px;
+}

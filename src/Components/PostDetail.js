@@ -55,89 +55,100 @@ class PostDetail extends Component {
         >
           ⬅︎ Go Back
         </button>
-        <div className="post">
-          <h1>{post.title}</h1>
-          <h3>Author: {post.author}</h3>
-          <p>{new Date(post.timestamp).toLocaleString()}</p>
-          <p>{post.body}</p>
-          <div className="vote-score-container">
-            <p className="vote-score-number">Score: {post.voteScore}</p>
-            <div className="vote-score-controls">
-              <button
-                value="decrement"
-                onClick={e => adjustPostScore(post, e.target.value, orderBy)}
-              >
-                -
-              </button>
-              <button
-                value="increment"
-                onClick={e => adjustPostScore(post, e.target.value, orderBy)}
-              >
-                +
-              </button>
+
+        {Object.keys(post).length === 0 ? (
+          <h3>{"The post you're looking for does not exist."}</h3>
+        ) : (
+          <div>
+            <div className="post">
+              <h1>{post.title}</h1>
+              <h3>Author: {post.author}</h3>
+              <p>{new Date(post.timestamp).toLocaleString()}</p>
+              <p>{post.body}</p>
+              <div className="vote-score-container">
+                <p className="vote-score-number">Score: {post.voteScore}</p>
+                <div className="vote-score-controls">
+                  <button
+                    value="decrement"
+                    onClick={e =>
+                      adjustPostScore(post, e.target.value, orderBy)
+                    }
+                  >
+                    -
+                  </button>
+                  <button
+                    value="increment"
+                    onClick={e =>
+                      adjustPostScore(post, e.target.value, orderBy)
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <p>Comments: {comments.length}</p>
+              <div className="post-buttons">
+                <button
+                  className="btn btn-info edit-icon"
+                  onClick={() => this.openPostModal(post.id)}
+                >
+                  <FaEdit size={20} />
+                </button>
+                <button
+                  className="btn btn-danger delete-icon"
+                  onClick={event => this.handlePostDelete(event, post.id)}
+                >
+                  <FaTrashO size={20} />
+                </button>
+              </div>
             </div>
-          </div>
-          <p>Comments: {comments.length}</p>
-          <div className="post-buttons">
-            <button
-              className="btn btn-info edit-icon"
-              onClick={() => this.openPostModal(post.id)}
+
+            <div className="comments-header-container">
+              <h2>Comments</h2>
+              <hr />
+            </div>
+
+            <div>
+              <ListComments comments={comments} />
+            </div>
+
+            <div className="new-comment">
+              <NewComment postId={postId} />
+            </div>
+
+            <Modal
+              isOpen={postModalOpen}
+              onRequestClose={this.closePostModal}
+              style={modalStyles}
             >
-              <FaEdit size={20} />
-            </button>
-            <button
-              className="btn btn-danger delete-icon"
-              onClick={event => this.handlePostDelete(event, post.id)}
-            >
-              <FaTrashO size={20} />
-            </button>
+              <form onSubmit={event => this.handlePostEdit(event)}>
+                <label>
+                  Title
+                  <input
+                    name="titleInput"
+                    className="form-control"
+                    placeholder="Title"
+                    defaultValue={post.title}
+                  />
+                </label>
+                <label>
+                  Post body
+                  <Textarea
+                    name="bodyTextarea"
+                    className="form-control"
+                    placeholder="Your post's body"
+                    defaultValue={post.body}
+                    minRows={4}
+                    maxRows={8}
+                  />
+                </label>
+                <button type="submit" className="btn btn-default">
+                  Update
+                </button>
+              </form>
+            </Modal>
           </div>
-        </div>
-
-        <div className="comments-header-container">
-          <h2>Comments</h2>
-          <hr />
-        </div>
-
-        <div>
-          <ListComments comments={comments} />
-        </div>
-
-        <div className="new-comment">
-          <NewComment postId={postId} />
-        </div>
-
-        <Modal
-          isOpen={postModalOpen}
-          onRequestClose={this.closePostModal}
-          style={modalStyles}
-        >
-          <form onSubmit={event => this.handlePostEdit(event)}>
-            <label>
-              Title
-              <input
-                name="titleInput"
-                className="form-control"
-                placeholder="Title"
-                defaultValue={post.title}
-              />
-            </label>
-            <label>
-              Post body
-              <Textarea
-                name="bodyTextarea"
-                className="form-control"
-                placeholder="Your post's body"
-                defaultValue={post.body}
-                minRows={4}
-                maxRows={8}
-              />
-            </label>
-            <button type="submit" className="btn btn-default">
-              Update
-            </button>
-          </form>
-        </Modal>
+        )}
       </div>
     )
   }

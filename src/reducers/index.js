@@ -1,19 +1,20 @@
 import { combineReducers } from 'redux'
+import { RECEIVE_CATEGORIES } from '../actions/categories'
 import {
-  RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
   RECEIVE_POST,
-  ORDER_POSTS,
-  ADJUST_POST_SCORE,
+  UPDATE_POST,
+  DELETE_POST,
+  ADD_POST,
+  ADJUST_POST_SCORE
+} from '../actions/posts/types'
+import {
   RECEIVE_COMMENTS,
   ADD_COMMENT,
   ADJUST_COMMENT_SCORE,
   DELETE_COMMENT,
-  UPDATE_COMMENT,
-  UPDATE_POST,
-  DELETE_POST,
-  ADD_POST
-} from '../actions'
+  UPDATE_COMMENT
+} from '../actions/comments/types'
 
 const defaultCategoriesState = {
   all: [],
@@ -52,19 +53,6 @@ function posts(state = defaultPostsState, action) {
         all: {
           [post.id]: post
         }
-      }
-    case ORDER_POSTS:
-      const orderedPosts = Object.values(state.all).sort((a, b) => {
-        if (a[value] > b[value]) return -1
-        if (a[value] < b[value]) return 1
-        return 0
-      })
-      return {
-        all: orderedPosts.reduce((postsObj, post) => {
-          postsObj[post.id] = post
-          return postsObj
-        }, {}),
-        orderBy: value
       }
     case ADJUST_POST_SCORE:
       return {

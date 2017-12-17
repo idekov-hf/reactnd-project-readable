@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
-import { modalStyles } from '../styles/modal-styles'
 import Textarea from 'react-textarea-autosize'
 import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
+import ScoreMechanism from './ScoreMechanism'
+import { modalStyles } from '../styles/modal-styles'
 import {
   fetchPosts,
-  orderPostsBy,
   adjustServerPostScore,
   addPost,
   deletePost,
   updatePost
-} from '../actions'
+} from '../actions/posts'
 import { generateId } from '../utils/helperMethods'
 
 class ListPosts extends Component {
@@ -66,13 +66,7 @@ class ListPosts extends Component {
     this.props.updatePost(this.state.post.id, updatedPostData)
   }
   render() {
-    const {
-      orderBy,
-      orderPostsBy,
-      posts,
-      adjustPostScore,
-      numComments
-    } = this.props
+    const { orderBy, posts, adjustPostScore, numComments } = this.props
     return (
       <div className="col-sm-8">
         <div className="vertical-align">
@@ -80,9 +74,11 @@ class ListPosts extends Component {
           <div>
             Order by:
             <select
-              defaultValue={orderBy}
+              value={orderBy}
               className="order-by"
-              onChange={e => orderPostsBy(e.target.value)}
+              onChange={e => {
+                console.log(e.target.value)
+              }}
             >
               <option value="voteScore">Most Votes</option>
               <option value="timestamp">Newest Post</option>
@@ -107,29 +103,7 @@ class ListPosts extends Component {
                     <p>
                       Date created: {new Date(post.timestamp).toLocaleString()}
                     </p>
-                    <div className="vote-score-container">
-                      <p className="vote-score-number">
-                        Score: {post.voteScore}
-                      </p>
-                      <div className="vote-score-controls">
-                        <button
-                          value="decrement"
-                          onClick={e =>
-                            adjustPostScore(post, e.target.value, orderBy)
-                          }
-                        >
-                          -
-                        </button>
-                        <button
-                          value="increment"
-                          onClick={e =>
-                            adjustPostScore(post, e.target.value, orderBy)
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
+                    <ScoreMechanism score={post.voteScore} />
                     <p>
                       Comments:{' '}
                       {numComments[post.id] ? numComments[post.id] : 0}
@@ -273,9 +247,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
-    orderPostsBy: value => dispatch(orderPostsBy(value)),
-    adjustPostScore: (post, operation, orderBy) =>
-      dispatch(adjustServerPostScore(post, operation, orderBy)),
+    adjustPostScore: (post, operation) =>
+      dispatch(adjustServerPostScore(post, operation)),
     addPost: post => dispatch(addPost(post)),
     deletePost: postId => dispatch(deletePost(postId)),
     updatePost: (postId, postData) => dispatch(updatePost(postId, postData))

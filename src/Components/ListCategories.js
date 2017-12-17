@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchCategories } from '../actions'
+import { fetchCategories } from '../actions/categories'
 
 class ListCategories extends Component {
   componentDidMount() {
@@ -20,9 +20,9 @@ class ListCategories extends Component {
                 return (
                   <Link
                     to={`/${selected ? '' : category.name}`}
-                    className={`list-group-item list-group-item-action ${selected
-                      ? 'active'
-                      : ''}`}
+                    className={`list-group-item list-group-item-action ${
+                      selected ? 'active' : ''
+                    }`}
                     key={category.path}
                   >
                     {category.name}

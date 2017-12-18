@@ -16,12 +16,7 @@ import {
   UPDATE_COMMENT
 } from '../actions/comments/types'
 
-const defaultCategoriesState = {
-  all: [],
-  selected: ''
-}
-
-function categories(state = defaultCategoriesState, action) {
+function categories(state = { all: [] }, action) {
   const { type, categories } = action
   switch (type) {
     case RECEIVE_CATEGORIES:

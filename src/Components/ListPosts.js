@@ -70,7 +70,7 @@ class ListPosts extends Component {
     const {
       orderBy,
       orderPostsBy,
-      posts,
+      visiblePosts,
       adjustPostScore,
       numComments
     } = this.props
@@ -98,7 +98,7 @@ class ListPosts extends Component {
         <div>
           <div>
             <ul className="list-group">
-              {posts.map(post => (
+              {visiblePosts.map(post => (
                 <li className="list-group-item post-list-item" key={post.id}>
                   <div className="content">
                     <h4>
@@ -225,14 +225,14 @@ class ListPosts extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  let posts = Object.keys(state.posts.all).reduce((postsArr, postKey) => {
-    postsArr.push(state.posts.all[postKey])
+function mapStateToProps({ posts, comments, categories }, props) {
+  let visiblePosts = Object.keys(posts.all).reduce((postsArr, postKey) => {
+    postsArr.push(posts.all[postKey])
     return postsArr
   }, [])
 
-  const { orderBy } = state.posts
-  posts = posts.sort((a, b) => {
+  const { orderBy } = posts
+  visiblePosts = visiblePosts.sort((a, b) => {
     if (a[orderBy] > b[orderBy]) return -1
     if (a[orderBy] < b[orderBy]) return 1
     return 0
@@ -241,13 +241,13 @@ function mapStateToProps(state, props) {
   // Filter posts if category has been selected
   const filterBy = props.category
   if (filterBy !== '') {
-    posts = posts.filter(post => {
+    visiblePosts = visiblePosts.filter(post => {
       return filterBy === post.category
     })
   }
 
-  const numComments = Object.values(state.comments).reduce((obj, comment) => {
-    const parentId = state.comments[comment.id].parentId
+  const numComments = Object.values(comments).reduce((obj, comment) => {
+    const parentId = comments[comment.id].parentId
     return {
       ...obj,
       [parentId]: obj[parentId] === undefined ? 1 : obj[parentId] + 1
@@ -255,10 +255,10 @@ function mapStateToProps(state, props) {
   }, {})
 
   return {
-    posts,
+    visiblePosts,
     orderBy,
     numComments,
-    categories: state.categories.all
+    categories: categories.all
   }
 }
 

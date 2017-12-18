@@ -11,7 +11,8 @@ import {
   adjustServerPostScore,
   addPost,
   deletePost,
-  updatePost
+  updatePost,
+  orderPostsBy
 } from '../actions/posts'
 import { generateId } from '../utils/helperMethods'
 
@@ -66,7 +67,13 @@ class ListPosts extends Component {
     this.props.updatePost(this.state.post.id, updatedPostData)
   }
   render() {
-    const { orderBy, posts, adjustPostScore, numComments } = this.props
+    const {
+      orderBy,
+      orderPostsBy,
+      posts,
+      adjustPostScore,
+      numComments
+    } = this.props
     return (
       <div className="col-sm-8">
         <div className="vertical-align">
@@ -77,7 +84,7 @@ class ListPosts extends Component {
               value={orderBy}
               className="order-by"
               onChange={e => {
-                console.log(e.target.value)
+                orderPostsBy(e.target.value)
               }}
             >
               <option value="voteScore">Most Votes</option>
@@ -169,9 +176,9 @@ class ListPosts extends Component {
             <label>
               Select category
               <select name="categorySelect" className="new-post-select">
-                {this.props.comments.map(comment => (
-                  <option value={`${comment.name}`} key={comment.path}>
-                    {comment.name}
+                {this.props.categories.map(category => (
+                  <option value={`${category.name}`} key={category.path}>
+                    {category.name}
                   </option>
                 ))}
               </select>
@@ -224,6 +231,13 @@ function mapStateToProps(state, props) {
     return postsArr
   }, [])
 
+  const { orderBy } = state.posts
+  posts = posts.sort((a, b) => {
+    if (a[orderBy] > b[orderBy]) return -1
+    if (a[orderBy] < b[orderBy]) return 1
+    return 0
+  })
+
   // Filter posts if category has been selected
   const filterBy = props.category
   if (filterBy !== '') {
@@ -242,9 +256,9 @@ function mapStateToProps(state, props) {
 
   return {
     posts,
-    orderBy: state.posts.orderBy,
-    numComments: numComments,
-    comments: state.categories.all
+    orderBy,
+    numComments,
+    categories: state.categories.all
   }
 }
 
@@ -255,7 +269,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(adjustServerPostScore(post, operation)),
     addPost: post => dispatch(addPost(post)),
     deletePost: postId => dispatch(deletePost(postId)),
-    updatePost: (postId, postData) => dispatch(updatePost(postId, postData))
+    updatePost: (postId, postData) => dispatch(updatePost(postId, postData)),
+    orderPostsBy: value => dispatch(orderPostsBy(value))
   }
 }
 

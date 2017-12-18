@@ -4,7 +4,8 @@ import {
   ADJUST_POST_SCORE,
   UPDATE_POST,
   DELETE_POST,
-  ADD_POST
+  ADD_POST,
+  ORDER_BY
 } from './types'
 import * as APIUtil from '../../utils/api'
 import { fetchComments } from '../comments'
@@ -77,3 +78,8 @@ export const addPost = post => dispatch => {
     dispatch(addPostToStore(newPost))
   })
 }
+
+export const orderPostsBy = value => ({
+  type: ORDER_BY,
+  value
+})

@@ -6,7 +6,8 @@ import {
   UPDATE_POST,
   DELETE_POST,
   ADD_POST,
-  ADJUST_POST_SCORE
+  ADJUST_POST_SCORE,
+  ORDER_BY
 } from '../actions/posts/types'
 import {
   RECEIVE_COMMENTS,
@@ -93,6 +94,11 @@ function posts(state = defaultPostsState, action) {
           ...state.all,
           [post.id]: post
         }
+      }
+    case ORDER_BY:
+      return {
+        ...state,
+        orderBy: value
       }
     default:
       return state

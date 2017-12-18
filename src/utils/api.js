@@ -16,8 +16,8 @@ export function fetchPost(postId) {
   }).then(response => response.json())
 }
 
-export function adjustPostScore(post, option) {
-  return fetch(`http://localhost:3001/posts/${post.id}`, {
+export function adjustPostScore(postId, option) {
+  return fetch(`http://localhost:3001/posts/${postId}`, {
     method: 'post',
     headers: {
       Authorization: 'Authorization',

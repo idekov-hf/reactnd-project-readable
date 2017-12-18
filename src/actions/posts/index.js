@@ -31,15 +31,14 @@ export const fetchPost = postId => dispatch =>
     dispatch(fetchComments(post))
   })
 
-export const adjustLocalPostScore = (post, operation) => ({
+export const adjustLocalPostScore = (postId, operation) => ({
   type: ADJUST_POST_SCORE,
-  post,
+  postId,
   operation
 })
 
 export const adjustServerPostScore = (post, operation) => dispatch => {
-  const option = operation === 'increment' ? 'upVote' : 'downVote'
-  APIUtil.adjustPostScore(post, option).then(() => {
+  APIUtil.adjustPostScore(post, operation).then(() => {
     dispatch(adjustLocalPostScore(post, operation))
   })
 }

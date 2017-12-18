@@ -5,9 +5,10 @@ import {
   adjustServerPostScore,
   updatePost,
   deletePost
-} from '../actions'
+} from '../actions/posts'
 import NewComment from './NewComment'
 import ListComments from './ListComments'
+import ScoreMechanism from './ScoreMechanism'
 import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 import Modal from 'react-modal'
 import Textarea from 'react-textarea-autosize'
@@ -65,27 +66,11 @@ class PostDetail extends Component {
               <h3>Author: {post.author}</h3>
               <p>{new Date(post.timestamp).toLocaleString()}</p>
               <p>{post.body}</p>
-              <div className="vote-score-container">
-                <p className="vote-score-number">Score: {post.voteScore}</p>
-                <div className="vote-score-controls">
-                  <button
-                    value="decrement"
-                    onClick={e =>
-                      adjustPostScore(post, e.target.value, orderBy)
-                    }
-                  >
-                    -
-                  </button>
-                  <button
-                    value="increment"
-                    onClick={e =>
-                      adjustPostScore(post, e.target.value, orderBy)
-                    }
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+              <ScoreMechanism
+                score={post.voteScore}
+                onDecrement={() => adjustPostScore(post.id, 'downVote')}
+                onIncrement={() => adjustPostScore(post.id, 'upVote')}
+              />
               <p>Comments: {comments.length}</p>
               <div className="post-buttons">
                 <button
@@ -169,8 +154,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchPost: postId => dispatch(fetchPost(postId)),
-    adjustPostScore: (post, operation, orderBy) =>
-      dispatch(adjustServerPostScore(post, operation, orderBy)),
+    adjustPostScore: (post, operation) =>
+      dispatch(adjustServerPostScore(post, operation)),
     updatePost: (postId, postData) => dispatch(updatePost(postId, postData)),
     deletePost: postId => dispatch(deletePost(postId))
   }

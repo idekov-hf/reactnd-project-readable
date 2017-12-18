@@ -103,7 +103,11 @@ class ListPosts extends Component {
                     <p>
                       Date created: {new Date(post.timestamp).toLocaleString()}
                     </p>
-                    <ScoreMechanism score={post.voteScore} />
+                    <ScoreMechanism
+                      score={post.voteScore}
+                      onDecrement={() => adjustPostScore(post.id, 'downVote')}
+                      onIncrement={() => adjustPostScore(post.id, 'upVote')}
+                    />
                     <p>
                       Comments:{' '}
                       {numComments[post.id] ? numComments[post.id] : 0}

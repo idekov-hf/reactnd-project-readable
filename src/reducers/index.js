@@ -59,12 +59,12 @@ function posts(state = defaultPostsState, action) {
         ...state,
         all: {
           ...state.all,
-          [post.id]: {
-            ...state.all[post.id],
+          [postId]: {
+            ...state.all[postId],
             voteScore:
-              operation === 'increment'
-                ? state.all[post.id].voteScore + 1
-                : state.all[post.id].voteScore - 1
+              operation === 'upVote'
+                ? state.all[postId].voteScore + 1
+                : state.all[postId].voteScore - 1
           }
         }
       }

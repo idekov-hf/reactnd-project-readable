@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { adjustCommentScore, deleteComment, updateComment } from '../actions'
+import {
+  adjustCommentScore,
+  deleteComment,
+  updateComment
+} from '../actions/comments'
 import { FaEdit, FaTrashO } from 'react-icons/lib/fa'
 import Modal from 'react-modal'
 import { modalStyles } from '../styles/modal-styles'

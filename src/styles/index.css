@@ -67,6 +67,10 @@ select.new-post-select {
   word-wrap: break-word;
 }
 
+.controls-container {
+  display: flex;
+}
+
 .buttons {
   display: flex;
   flex-direction: column;

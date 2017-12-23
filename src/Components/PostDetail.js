@@ -47,7 +47,7 @@ class PostDetail extends Component {
   }
   render() {
     const { postModalOpen } = this.state
-    const { post, postId, adjustPostScore, orderBy, comments } = this.props
+    const { post, postId, adjustPostScore, comments } = this.props
     return (
       <div>
         <button
